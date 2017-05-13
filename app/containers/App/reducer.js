@@ -16,7 +16,7 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
-  PICK_DESTINATION,
+  
 } from './constants';
 
 // The initial state of the App
@@ -45,16 +45,6 @@ function appReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
-    case PICK_DESTINATION:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['destination'], false);
-    case PICK_DESTINATION:
-      return state
-        .setIn(['destination'], false)
-        .set('loading', false)
-        .set('error', false);
     default:
       return state;
   }

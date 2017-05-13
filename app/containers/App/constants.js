@@ -12,6 +12,4 @@
 export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
-export const PICK_DESTINATION = 'helios/App/PICK_DESTINATION';
-export const PICK_DESTINATION_SUCCESSFUL = "helio/App/PICK_DESTINATION_SUCCESSFUL";
 export const DEFAULT_LOCALE = 'en';
