@@ -1,30 +1,38 @@
-/*
- *
- * LanguageProvider reducer
- *
- */
-
 import { fromJS } from 'immutable';
 
 import {
-  CHANGE_LOCALE,
-} from './constants';
-import {
-  DEFAULT_LOCALE,
-} from '../App/constants';
+  REQUEST_PRODUCTS,
+  REQUEST_PRODUCTS_SUCCESS,
+  REQUEST_PRODUCTS_ERROR,
+} from './actions'
 
+// The initial state of the App
 const initialState = fromJS({
-  locale: DEFAULT_LOCALE,
-});
+  loading: false,
+  error: false,
+  occasion: null,
+  products: {}
+})
 
-function languageProviderReducer(state = initialState, action) {
+function confirmationReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_LOCALE:
+    case REQUEST_PRODUCTS:
       return state
-        .set('locale', action.locale);
+        .set('loading', true)
+        .set('error', false)
+        .set('occasion', action.occasion)
+        .set('products', {})
+    case REQUEST_PRODUCTS_SUCCESS:
+      return state
+        .set('products', action.products)
+        .set('loading', false)
+    case REQUEST_PRODUCTS_ERROR:
+      return state
+        .set('error', action.error)
+        .set('loading', false)
     default:
-      return state;
+      return state
   }
 }
 
-export default languageProviderReducer;
+export default confirmationReducer

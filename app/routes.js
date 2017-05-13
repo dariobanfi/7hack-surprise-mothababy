@@ -42,9 +42,20 @@ export default function createRoutes(store) {
       path: '/confirmation',
       name: 'confirmation',
       getComponent(nextState, cb) {
-        import('containers/ConfirmationPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+        const importModules = Promise.all([
+          import('containers/ConfirmationPage/reducer'),
+          import('containers/ConfirmationPage/sagas'),
+          import('containers/ConfirmationPage'),
+        ])
+
+        const renderRoute = loadModule(cb);
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('confirmation', reducer.default)
+          injectSagas(sagas.default)
+          renderRoute(component)
+        })
+
+        importModules.catch(errorLoading)
       },
     }, {
       path: '/holiday',
