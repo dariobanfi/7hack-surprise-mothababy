@@ -4,3 +4,11 @@ export function changeEmotion(emotion) {
     emotion,
   };
 }
+
+
+export function changeInterests(interestObj) {
+  return {
+    type: 'CHANGE_INTERESTS',
+    interestObj,
+  };
+}
