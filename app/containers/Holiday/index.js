@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import Img from "../../components/Header/Img";
@@ -8,13 +7,20 @@ import Waypoint from 'react-waypoint';
 import Webcam from 'react-webcam';
 // fetch doesn't support Blobs, sorry for jQuery -.-
 import jquery from "jquery";
+import { createSelector } from 'reselect';
 
+import { makeSelectEmotion } from './selectors';
+import {changeEmotion} from "./actions";
+import {fromJS} from 'immutable';
+import H1 from "../../components/H1/index";
+import CenteredSection from "../HomePage/CenteredSection";
+import H3 from "../../components/H3/index";
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
     super(props);
-    this.state = { screenshot: null };
+    this.state = { screenshot: null, finished: false };
   }
 
   makeBlob = function (dataURL) {
@@ -45,12 +51,12 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   printImages() {
     const imagesWithMetadata = [
       { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['city', 'cafe']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['mountain']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['outdoors']},
       { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']}
+      { img: 'https://www.placecage.com/g/400/500', tags: ['party', 'beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['culture']}
     ];
 
     return imagesWithMetadata.map((metadataImg, index) => {
@@ -60,7 +66,6 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
           <Waypoint
             onEnter={(evt) => this.takeScreenShot(metadataImg)}
           />
-          <Img src={this.state.screenshot} />
       </div>
       );
     });
@@ -81,7 +86,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   sendBlob(blob) {
-    console.log(blob)
+  const that = this;
   jquery.ajax({
       url: '  https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
       type: 'POST',
@@ -90,23 +95,67 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       contentType: 'application/octet-stream',
       data: blob
     })
-    .done(function(data) {console.log("success");})
+    .done((data) => {
+      const emotions = fromJS(data[0].scores);
+      console.log(emotions.toJS());
+      const emotion = emotions.keyOf(emotions.max());
+      that.props.onChangeEmotion(emotion)
+    })
     .fail(function() {console.log("error");});
+  }
+
+  showSuccessScreen() {
+    setTimeout(() => {
+      this.setState({finished: true});
+    }, 3000)
+  }
+
+  renderImageEmotions() {
+    return (
+      <div>
+        {/*Hiding it because noone wants to see your ugly face*/}
+        <div style={{ position: 'absolute', top: '-1000px'}}>
+          <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
+        </div>
+        {this.printImages()}
+        <Waypoint
+          onEnter={(evt) => this.showSuccessScreen()} />
+      </div>
+    )
+  }
+
+  renderFinishedScreen() {
+    this.props.onChangeEmotion(null);
+    return (
+    <div>
+      <p style={{height: 44}} />
+      <CenteredSection>
+        <H1>Thanks for making stupid faces at the camera!</H1>
+        <H3>We booked a surprise holiday for you!</H3>
+      </CenteredSection>
+    </div>
+    );
   }
 
   render() {
     return (
       <div>
-        {/*Hiding it because noone wants to see your ugly face*/}
-        <div style={{ position: 'absolute', top: '-1000px'}}>
-          <Webcam ref='webcam' width="500" height="500"/>
-        </div>
-        {this.printImages()}
+        {!this.state.finished ? this.renderImageEmotions() : this.renderFinishedScreen()}
       </div>
     );
   }
 }
 
-export default connect(createStructuredSelector({
-  currentUser: makeSelectCurrentUser(),
-}))(Holiday);
+export function mapDispatchToProps(dispatch) {
+  return {
+    onChangeEmotion: (emotion) => dispatch(changeEmotion(emotion)),
+  };
+}
+
+
+const mapStateToProps = createSelector(
+  makeSelectEmotion(),
+  (emotion) => ({ emotion })
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Holiday);

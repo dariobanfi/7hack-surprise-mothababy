@@ -16,18 +16,15 @@ import { makeSelectOccasion } from './selectors'
 export function* getProducts() {
   // Select username from store
   const occasion = yield select(makeSelectOccasion())
-  console.log(occasion)
-  const requestURL = `http://api-hack.stylight.net/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
+  const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
 
   try {
     // Call our request helper (see 'utils/request')
-    const products = yield call(request, requestURL, {
-      mode: 'no-cors',
-    })
-    console.log(products)
-    yield put(requestProductsSuccess(products));
+    const response = yield call(request, requestURL)
+
+    yield put(requestProductsSuccess(response.products))
   } catch (err) {
-    yield put(requestProductsError(err));
+    yield put(requestProductsError(err))
   }
 }
 
@@ -55,6 +52,5 @@ export function* productsData() {
 
 // Bootstrap sagas
 export default [
-  //githubData,
   productsData
 ]
