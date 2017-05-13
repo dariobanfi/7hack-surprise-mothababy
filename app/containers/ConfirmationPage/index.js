@@ -11,11 +11,15 @@ import { requestProducts } from './actions'
 import styled from 'styled-components'
 
 
-const Products = styled.div`
+const Wrapper = styled.div`
   margin: 70px auto;
   max-width: 1000px;
-  overflow-y: auto;
+`
+
+const Products = styled.div`
+  margin: 10px auto;
   display: flex;
+  justify-content: center;
 `
 
 const Product = styled.div`
@@ -26,7 +30,7 @@ const Product = styled.div`
 const ProductName = styled.div`
   font-size: 1.2em;
   padding: 10px;
-  width: 200px;
+  width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -34,24 +38,23 @@ const ProductName = styled.div`
 
 const ProductImage = styled.img`
   display: block;
-  width: 200px;
+  width: 100px;
 `
 
 class ConfirmationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-
   componentDidMount() {
-    this.props.dispatch(requestProducts(4008))
+    const summerOccasion = 4007 // 4008
+    this.props.dispatch(requestProducts(summerOccasion))
   }
 
   renderProducts(products) {
-    return products.map((value) => {
+    return products.slice(0, 3).map((value) => {
       const id = value.id
       const name = value.name
       const imageUrl = value.images[0].url
       return (
         <Product key={id}>
-          <ProductName>{name}</ProductName>
           <ProductImage src={imageUrl} alt={name}/>
         </Product>
       )
@@ -59,7 +62,7 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
   }
 
   render() {
-    const { products } = this.props
+    const { tops, pants, shoes } = this.props
     return (
       <div>
         <Helmet
@@ -68,9 +71,21 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
             { name: 'description', content: 'Confirmation app for 7hack app.' },
           ]}
         />
-        <Products>
-          { this.renderProducts(products) }
-        </Products>
+        <Wrapper>
+          <div>
+            <div>We choose a destination for you!</div>
+            <div>Sneak Peak: During your stay the weather will mostly sunny.</div>
+          </div>
+          <Products>
+            { this.renderProducts(tops) }
+          </Products>
+          <Products>
+            { this.renderProducts(pants) }
+          </Products>
+          <Products>
+            { this.renderProducts(shoes) }
+          </Products>
+        </Wrapper>
       </div>
     )
   }
@@ -78,8 +93,10 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
 
 function mapStateToProps(state) {
   return {
-    stateString: JSON.stringify(state),
-    products: state.get("confirmation").get("products")
+    //stateString: JSON.stringify(state),
+    tops: state.get("confirmation").get("tops"),
+    pants: state.get("confirmation").get("pants"),
+    shoes: state.get("confirmation").get("shoes")
   }
 }
 

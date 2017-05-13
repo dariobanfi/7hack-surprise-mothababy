@@ -10,9 +10,10 @@ export function requestProducts(occasion) {
 
 export const REQUEST_PRODUCTS_SUCCESS = 'REQUEST_PRODUCTS_SUCCESS'
 
-export function requestProductsSuccess(products) {
+export function requestProductsSuccess(apparelType, products) {
   return {
     type: REQUEST_PRODUCTS_SUCCESS,
+    apparelType,
     products
   }
 }

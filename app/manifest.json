@@ -32,8 +32,9 @@
       "density": 4.0
     }
   ],
-  "start_url": "index.html",
+  "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FFFFFF"
+  "background_color": "#FFFFFF",
+  "permissions": ["notifications", "videoCapture"]
 }
