@@ -5,4 +5,5 @@ export default styled.div`
   background-color: #fff;
   position: fixed;
   width: 100%;
+  box-shadow: 0px 2px 20px #000;
 `;
