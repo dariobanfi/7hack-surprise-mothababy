@@ -30,11 +30,11 @@ import LanguageProvider from 'containers/LanguageProvider';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./favicon.ico';
-import '!file-loader?name=[name].[ext]!./icons/helios-48.png';
-import '!file-loader?name=[name].[ext]!./icons/helios-72.png';
-import '!file-loader?name=[name].[ext]!./icons/helios-96.png';
-import '!file-loader?name=[name].[ext]!./icons/helios-144.png';
-import '!file-loader?name=[name].[ext]!./icons/helios-192.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-42.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-61.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-78.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-118.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-158.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */

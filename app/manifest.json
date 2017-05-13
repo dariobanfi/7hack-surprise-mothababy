@@ -2,32 +2,32 @@
   "name": "Helios",
   "icons": [
     {
-      "src": "helios-48.png",
-      "sizes": "48x48",
+      "src": "helios-42.png",
+      "sizes": "42x42",
       "type": "image/png",
       "density": 3.0
     },
     {
-      "src": "helios-72.png",
-      "sizes": "72x72",
+      "src": "helios-61.png",
+      "sizes": "61x61",
       "type": "image/png",
       "density": 1.0
     },
     {
-      "src": "helios-96.png",
-      "sizes": "96x96",
+      "src": "helios-78.png",
+      "sizes": "78x78",
       "type": "image/png",
       "density": 2.0
     },
     {
-      "src": "helios-144.png",
-      "sizes": "144x144",
+      "src": "helios-118.png",
+      "sizes": "118x118",
       "type": "image/png",
       "density": 3.0
     },
     {
-      "src": "helios-192.png",
-      "sizes": "192x192",
+      "src": "helios-158.png",
+      "sizes": "158x158",
       "type": "image/png",
       "density": 4.0
     }
