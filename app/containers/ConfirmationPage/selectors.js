@@ -7,6 +7,12 @@ const makeSelectOccasion = () => createSelector(
   (confirmationState) => confirmationState.get('occasion')
 )
 
+const makeSelectCoordinates = () => createSelector(
+  selectConfirmation,
+  (confirmationState) => confirmationState.get('coordinates')
+)
+
 export {
-  makeSelectOccasion
+  makeSelectOccasion,
+  makeSelectCoordinates
 }

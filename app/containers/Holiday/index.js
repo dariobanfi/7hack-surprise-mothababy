@@ -36,6 +36,7 @@ import image11 from './11.jpg'
 import image12 from './12.jpg'
 import image13 from './13.jpg'
 import image14 from './14.jpg'
+import Button from "../../components/Button/index";
 
 const StyledCard = styled ( Card ) `
   margin: 20px 0;
@@ -112,15 +113,13 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   takeScreenShot(visibleItem) {
-    console.log('Took your photo while looking at', visibleItem);
     const screenshot = this.refs.webcam.getScreenshot();
     this.setState({screenshot: screenshot});
     if (!screenshot) {
       return;
     }
+    console.log('We took your photo while looking at', visibleItem);
     const blob = this.makeBlob(screenshot);
-    console.log(blob);
-
     this.sendBlob(blob, visibleItem);
 
   }
@@ -137,8 +136,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     })
     .done((data) => {
       const emotions = fromJS(data[0].scores);
-      console.log(emotions.toJS());
-      console.log('interests', that.props.interests.toJS());
+      console.log('This is your reaction: ', emotions.toJS());
       const emotion = emotions.keyOf(emotions.max());
       that.props.onChangeEmotion(emotion);
 
@@ -149,6 +147,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         };
         that.props.onChangeInterests(interestsObj);
       });
+      console.log('Those are your interests: ', that.props.interests.toJS());
     })
     .fail(function() {console.log("error");});
   }
@@ -163,18 +162,18 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
     const images = [
       { img: image1, tags: ['nature', 'exotic' ]},
-      { img: image2, tags: ['nature']},
+      // { img: image2, tags: ['nature']},
       { img: image3, tags: ['beach']},
       { img: image4, tags: ['party', 'city']},
-      { img: image5, tags: ['exotic']},
+      // { img: image5, tags: ['exotic']},
       { img: image6, tags: ['beach']},
       { img: image7, tags: ['culture']},
-      { img: image8, tags: ['culture']},
+      // { img: image8, tags: ['culture']},
       { img: image9, tags: ['beach']},
       { img: image10, tags: ['city']},
-      { img: image11, tags: ['party']},
+      // { img: image11, tags: ['party']},
       { img: image12, tags: ['exotic']},
-      { img: image13, tags: ['city']},
+      // { img: image13, tags: ['city']},
       { img: image14, tags: ['city']},
     ];
 
@@ -196,14 +195,20 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   renderFinishedScreen() {
-    console.log('THE CATEGORY WE CHOSE IS:', this.props.interests.keyOf(this.props.interests.max()));
+    console.log('The category the user would like to see is: ', this.props.interests.keyOf(this.props.interests.max()));
+    console.log('Booking from weg.de: ', this.props.interests.keyOf(this.props.interests.max()));
     this.props.onChangeEmotion(null);
     return (
     <div>
       <p style={{height: 44}} />
       <CenteredSection>
         <H1>Thanks for making stupid faces at the camera!</H1>
-        <H3>We booked a surprise holiday for you!</H3>
+        <H2>
+          Now choose your price range
+        </H2>
+        <Button href='confirmation'>max 100 €</Button>
+        <Button href='confirmation'>max 200 €</Button>
+        <Button href='confirmation'>max 300 €</Button>
       </CenteredSection>
     </div>
     );

@@ -11,13 +11,14 @@ import React, { PropTypes, Children } from 'react';
 import A from './A';
 import StyledButton from './StyledButton';
 import Wrapper from './Wrapper';
+import {Link} from "react-router";
 
 function Button(props) {
   // Render an anchor tag
   let button = (
-    <A href={props.href} onClick={props.onClick}>
-      {Children.toArray(props.children)}
-    </A>
+    <Link to={props.href} onClick={props.onClick}>
+      <A>{Children.toArray(props.children)}</A>
+    </Link>
   );
 
   // If the Button has a handleRoute prop, we want to render a button

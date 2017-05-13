@@ -39,14 +39,75 @@ const rightstyle = {
 
 };
 
+import jquery from "jquery";
+
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
+    setTimeout(() => {
+      this.takeScreenShot();
+    },3000);
+  }
+
+  makeBlob = function (dataURL) {
+    if (!dataURL) {
+      return;
     }
+    const BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1];
+      const raw = decodeURIComponent(parts[1]);
+      return new Blob([raw], { type: contentType });
+    }
+    const parts = dataURL.split(BASE64_MARKER);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+
+    const uInt8Array = new Uint8Array(rawLength);
+
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], { type: contentType });
+  };
+
+
+  takeScreenShot() {
+    const screenshot = this.refs.webcam.getScreenshot();
+    this.setState({screenshot: screenshot});
+    if (!screenshot) {
+      return;
+    }
+    const blob = this.makeBlob(screenshot);
+    this.sendBlob(blob);
+
+  }
+
+  sendBlob(blob) {
+    const that = this;
+    var params = {
+      // Request parameters
+      "returnFaceId": "true",
+      "returnFaceLandmarks": "false",
+      "returnFaceAttributes": "{string}",
+    };
+    jquery.ajax({
+      url: "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?" + jquery.param(params),
+      type: 'POST',
+      headers: {"Ocp-Apim-Subscription-Key": "45f1449cc8bc4a438fd0f404b322591c"},
+      processData: false,
+      contentType: 'application/octet-stream',
+      data: blob
+    })
+      .done((data) => {
+        console.log(data);
+      })
+      .fail(function() {console.log("error");});
   }
 
   render() {
