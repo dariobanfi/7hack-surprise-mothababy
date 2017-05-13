@@ -7,14 +7,15 @@ import Waypoint from 'react-waypoint';
 import Webcam from 'react-webcam';
 // fetch doesn't support Blobs, sorry for jQuery -.-
 import jquery from "jquery";
-import { createSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
-import { makeSelectEmotion } from './selectors';
-import {changeEmotion} from "./actions";
+import {makeSelectEmotion, makeSelectInterests} from './selectors';
+import {changeEmotion, changeInterests} from "./actions";
 import {fromJS} from 'immutable';
 import H1 from "../../components/H1/index";
 import CenteredSection from "../HomePage/CenteredSection";
 import H3 from "../../components/H3/index";
+import H2 from "../../components/H2/index";
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -48,18 +49,9 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     return new Blob([uInt8Array], { type: contentType });
   };
 
-  printImages() {
-    const imagesWithMetadata = [
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['city', 'cafe']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['mountain']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['outdoors']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['party', 'beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['culture']}
-    ];
+  printImages(images) {
 
-    return imagesWithMetadata.map((metadataImg, index) => {
+    return images.map((metadataImg, index) => {
       return (
         <div key={index}>
           <Img src={metadataImg.img}  />
@@ -81,12 +73,12 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     const blob = this.makeBlob(screenshot);
     console.log(blob);
 
-    this.sendBlob(blob);
+    this.sendBlob(blob, visibleItem);
 
   }
 
-  sendBlob(blob) {
-  const that = this;
+  sendBlob(blob,visibleItem) {
+    const that = this;
   jquery.ajax({
       url: '  https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
       type: 'POST',
@@ -98,8 +90,17 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     .done((data) => {
       const emotions = fromJS(data[0].scores);
       console.log(emotions.toJS());
+      console.log('interests', that.props.interests.toJS());
       const emotion = emotions.keyOf(emotions.max());
-      that.props.onChangeEmotion(emotion)
+      that.props.onChangeEmotion(emotion);
+
+      visibleItem.tags.map((tag) => {
+        const interestsObj = {
+          interestName: tag,
+          interestVal: emotions.get('happiness')
+        };
+        that.props.onChangeInterests(interestsObj);
+      });
     })
     .fail(function() {console.log("error");});
   }
@@ -111,20 +112,36 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   renderImageEmotions() {
+
+    const images = [
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['city', 'cafe']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['mountain']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['outdoors']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['party', 'beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['culture']}
+    ];
+
+
     return (
-      <div>
+      <CenteredSection>
+        <p style={{height: 44}} />
+        <H2>Swipe down slowly</H2>
+        <img src="http://keymarketing.com/wordpress/wp-content/themes/keymarketing/dist/img/arrowdown.svg" style={{height: '190px', paddingBottom: '10px'}}/>
         {/*Hiding it because noone wants to see your ugly face*/}
         <div style={{ position: 'absolute', top: '-1000px'}}>
           <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
         </div>
-        {this.printImages()}
+        {this.printImages(images)}
         <Waypoint
           onEnter={(evt) => this.showSuccessScreen()} />
-      </div>
+      </CenteredSection>
     )
   }
 
   renderFinishedScreen() {
+    console.log('THE CATEGORY WE CHOSE IS:', this.props.interests.keyOf(this.props.interests.max()));
     this.props.onChangeEmotion(null);
     return (
     <div>
@@ -149,13 +166,15 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeEmotion: (emotion) => dispatch(changeEmotion(emotion)),
+    onChangeInterests: (interestObj) => dispatch(changeInterests(interestObj)),
   };
 }
 
 
-const mapStateToProps = createSelector(
-  makeSelectEmotion(),
-  (emotion) => ({ emotion })
-);
+
+const mapStateToProps = createStructuredSelector({
+  emotion: makeSelectEmotion(),
+  interests: makeSelectInterests()
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Holiday);

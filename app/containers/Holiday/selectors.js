@@ -7,7 +7,15 @@ const makeSelectEmotion = () => createSelector(
   (emotionState) => emotionState.get('emotion')
 );
 
+
+const makeSelectInterests = () => createSelector(
+  selectEmotion,
+  (holidayState) => holidayState.get('interests')
+);
+
+
 export {
   selectEmotion,
   makeSelectEmotion,
+  makeSelectInterests
 };
