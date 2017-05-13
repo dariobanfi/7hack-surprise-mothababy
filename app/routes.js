@@ -42,7 +42,7 @@ export default function createRoutes(store) {
       path: '/confirmation',
       name: 'confirmation',
       getComponent(nextState, cb) {
-        import('containers/Holiday')
+        import('containers/ConfirmationPage')
           .then(loadModule(cb))
           .catch(errorLoading);
       },
