@@ -14,7 +14,19 @@ import { makeSelectCurrentUser } from 'containers/App/selectors';
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>Holidays go here</div>
+      <div>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+        <img src="https://www.placecage.com/g/800/600"></img>
+      </div>
     );
   }
 }
