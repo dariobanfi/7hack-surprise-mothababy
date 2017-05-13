@@ -11,7 +11,7 @@ const initialState = fromJS({
   loading: false,
   error: false,
   occasion: null,
-  products: {}
+  products: []
 })
 
 function confirmationReducer(state = initialState, action) {
@@ -21,7 +21,7 @@ function confirmationReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('occasion', action.occasion)
-        .set('products', {})
+        .set('products', [])
     case REQUEST_PRODUCTS_SUCCESS:
       return state
         .set('products', action.products)
