@@ -136,7 +136,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
     const images = [
       { img: image1, tags: ['nature', 'exotic' ]},
-      { img: image2, tags: ['nature']},
+      // { img: image2, tags: ['nature']},
       { img: image3, tags: ['beach']},
       { img: image4, tags: ['party', 'city']},
       // { img: image5, tags: ['exotic']},
@@ -179,9 +179,9 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         <H2>
           Now choose your price range
         </H2>
-        <Button>max 100 €</Button>
-        <Button>max 200 €</Button>
-        <Button>max 300 €</Button>
+        <Button href='confirmation'>max 100 €</Button>
+        <Button href='confirmation'>max 200 €</Button>
+        <Button href='confirmation'>max 300 €</Button>
       </CenteredSection>
     </div>
     );

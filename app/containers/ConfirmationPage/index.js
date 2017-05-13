@@ -9,10 +9,14 @@ import { connect } from 'react-redux'
 import { requestProducts } from './actions'
 
 import styled from 'styled-components'
+import CenteredSection from "../HomePage/CenteredSection";
+import H1 from "../../components/H1/index";
+import H2 from "../../components/H2/index";
 
 
 const Wrapper = styled.div`
   margin: 70px auto;
+  padding: 0 20px 0 20px;
   max-width: 1000px;
 `
 
@@ -72,19 +76,20 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
-          <div>
-            <div>We choose a destination for you!</div>
+          <CenteredSection>
+            <H1>We choose a destination for you! 👻</H1>
             <div>Sneak Peak: During your stay the weather will mostly sunny.</div>
-          </div>
-          <Products>
-            { this.renderProducts(tops) }
-          </Products>
-          <Products>
-            { this.renderProducts(pants) }
-          </Products>
-          <Products>
-            { this.renderProducts(shoes) }
-          </Products>
+            <H2>We bought those clothes for you, can you guess where you will go?.</H2>
+            <Products>
+              { this.renderProducts(tops) }
+            </Products>
+            <Products>
+              { this.renderProducts(pants) }
+            </Products>
+            <Products>
+              { this.renderProducts(shoes) }
+            </Products>
+          </CenteredSection>
         </Wrapper>
       </div>
     )
