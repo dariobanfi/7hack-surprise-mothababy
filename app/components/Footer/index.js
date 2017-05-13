@@ -5,9 +5,7 @@ import Wrapper from './Wrapper';
 function Footer() {
   return (
     <Wrapper>
-      <section>
-        <p>Footer goes here</p>
-      </section>
+      <p>Helios LTD</p>
     </Wrapper>
   );
 }
