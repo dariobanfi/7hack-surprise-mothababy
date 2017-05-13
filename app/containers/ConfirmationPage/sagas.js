@@ -81,5 +81,4 @@ export function* productsData() {
 // Bootstrap sagas
 export default [
   productsData,
-  weatherData,
 ]
