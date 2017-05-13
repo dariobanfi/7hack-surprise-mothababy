@@ -11,17 +11,15 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import H1 from 'components/H1';
 import H2 from 'components/H2';
-import ReposList from 'components/ReposList';
-import AtPrefix from './AtPrefix';
+import H6 from 'components/H6';
 import CenteredSection from './CenteredSection';
-import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
+import Webcam from 'react-webcam';
 import { loadRepos } from '../App/actions';
 import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
+import Button from "../../components/Button/index";
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -52,33 +50,21 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         <div>
           <CenteredSection>
             <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
+              I am just taking up space... quite sad
             </H2>
-            <p>
-              <FormattedMessage {...messages.startProjectMessage} />
-            </p>
-          </CenteredSection>
-          <Section>
+            <H1>
+              GO SOMEWHERE WITHOUT KNOWING WHERE!
+            </H1>
+            <H6>
+              Well you should, case you suck.. look at your face
+            </H6>
+            <Webcam ref='webcam' width="300" height="300"/>
             <H2>
-              <FormattedMessage {...messages.trymeHeader} />
+              We'll show you some cool places, just use emotions to tell us what you like and we will book an holiday for
+              you and get you some cool clothes for it too!
             </H2>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-            <ReposList {...reposListProps} />
-          </Section>
+            <Button>Start</Button>
+          </CenteredSection>
         </div>
       </article>
     );

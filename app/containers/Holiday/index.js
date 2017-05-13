@@ -1,40 +1,63 @@
-/**
- * RepoListItem
- *
- * Lists the name and the issue count of a repository
- */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
+import Img from "../../components/Header/Img";
+import Waypoint from 'react-waypoint';
+import Webcam from 'react-webcam';
 
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+
+  constructor(props) {
+    super(props);
+    this.state = { screenshot: null };
+  }
+
+  printImages() {
+    const imagesWithMetadata = [
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
+      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']}
+    ];
+
+    return imagesWithMetadata.map((metadataImg, index) => {
+      return (
+        <div key={index}>
+          <Img src={metadataImg.img}  />
+          <Waypoint
+            onEnter={(evt) => this.takeScreenShot(metadataImg)}
+          />
+          <Img src={this.state.screenshot} />
+      </div>
+      );
+    });
+  }
+
+  takeScreenShot(visibleItem) {
+    console.log('Took your photo while looking at', visibleItem);
+    const screenshot = this.refs.webcam.getScreenshot();
+    console.log(screenshot);
+    this.setState({screenshot: screenshot});
+  }
+
   render() {
     return (
       <div>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
+        {/*Hiding it because noone wants to see your ugly face*/}
+        <div style={{ position: 'absolute', top: '-1000px'}}>
+          <Webcam ref='webcam' width="500" height="500"/>
+        </div>
+        {this.printImages()}
       </div>
     );
   }
 }
-
-Holiday.propTypes = {
-  item: React.PropTypes.object,
-  currentUser: React.PropTypes.string,
-};
 
 export default connect(createStructuredSelector({
   currentUser: makeSelectCurrentUser(),
