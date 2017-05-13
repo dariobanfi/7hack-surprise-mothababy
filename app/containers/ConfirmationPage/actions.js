@@ -1,16 +1,27 @@
-/*
- *
- * LanguageProvider actions
- *
- */
 
-import {
-  CHANGE_LOCALE,
-} from './constants';
+export const REQUEST_PRODUCTS = 'REQUEST_PRODUCTS'
 
-export function changeLocale(languageLocale) {
+export function requestProducts(occasion) {
   return {
-    type: CHANGE_LOCALE,
-    locale: languageLocale,
-  };
+    type: REQUEST_PRODUCTS,
+    occasion
+  }
+}
+
+export const REQUEST_PRODUCTS_SUCCESS = 'REQUEST_PRODUCTS_SUCCESS'
+
+export function requestProductsSuccess(products) {
+  return {
+    type: REQUEST_PRODUCTS_SUCCESS,
+    products
+  }
+}
+
+export const REQUEST_PRODUCTS_ERROR = 'REQUEST_PRODUCTS_ERROR'
+
+export function requestProductsError(error) {
+  return {
+    type: REQUEST_PRODUCTS_ERROR,
+    error
+  }
 }
