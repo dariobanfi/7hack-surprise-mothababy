@@ -38,7 +38,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   render() {
     return (
       <NavBar>
-        <p>The ultimate holiday website! {this.mapEmotionToEmojii(this.props.emotion)}</p>
+        <p style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>The ultimate holiday website! <span style={{fontSize: 50}}>{this.mapEmotionToEmojii(this.props.emotion)}</span></p>
       </NavBar>
     );
   }
