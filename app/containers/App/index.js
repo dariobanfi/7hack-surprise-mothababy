@@ -13,29 +13,36 @@ import styled from 'styled-components';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import withProgressBar from 'components/ProgressBar';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
 const AppWrapper = styled.div`
   margin: 0 auto;
   display: flex;
   min-height: 100%;
   padding: 0 0px;
   flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export function App(props) {
   return (
-    <AppWrapper>
-      <Helmet
-        titleTemplate="%s - Surprise Holiday"
-        defaultTitle="Surprise Holiday"
-        meta={[
-          { name: 'description', content: 'A surprise holiday which based on your feelings' },
-        ]}
-      />
-      <Header />
-      {React.Children.toArray(props.children)}
-      <Footer />
-    </AppWrapper>
+    <MuiThemeProvider>
+      <AppWrapper>
+        
+        <Helmet
+          titleTemplate="%s - Surprise Holiday"
+          defaultTitle="Surprise Holiday"
+          meta={[
+            { name: 'description', content: 'A surprise holiday which based on your feelings' },
+          ]}
+        />
+
+        {React.Children.toArray(props.children)}
+        {/*<Footer />*/}
+      </AppWrapper>
+    </MuiThemeProvider>
   );
 }
 

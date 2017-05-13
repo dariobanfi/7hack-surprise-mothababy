@@ -9,9 +9,15 @@ import Webcam from 'react-webcam';
 import jquery from "jquery";
 import { createStructuredSelector } from 'reselect';
 
+import styled, { keyframes } from 'styled-components';
+
+
 import {makeSelectEmotion, makeSelectInterests} from './selectors';
 import {changeEmotion, changeInterests} from "./actions";
 import {fromJS} from 'immutable';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {GridList, GridTile} from 'material-ui/GridList';
+
 import H1 from "../../components/H1/index";
 import CenteredSection from "../HomePage/CenteredSection";
 import H3 from "../../components/H3/index";
@@ -30,6 +36,25 @@ import image11 from './11.jpg'
 import image12 from './12.jpg'
 import image13 from './13.jpg'
 import image14 from './14.jpg'
+
+const StyledCard = styled ( Card ) `
+  margin: 20px 0;
+`
+const fullWidth = {
+  width: '100%'
+};
+const myimageKeyframes = keyframes `
+  from { background-position: 0% 0 ;}
+  to {background-position: 100% 0 ; }
+`
+
+const StyledCardMedia = styled ( CardMedia) `
+  height: 70vh;
+  animation: ${myimageKeyframes} 10s ease-in-out infinite alternate;
+  background-size: cover;
+  background-image: url('${props => props.image}');
+`
+
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -75,12 +100,13 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
     return images.map((metadataImg, index) => {
       return (
-        <div key={index}>
-          <Img src={metadataImg.img}  />
-          <Waypoint
+        <StyledCard key={index}>
+          <StyledCardMedia image={metadataImg.img}>
+        </StyledCardMedia>
+        <Waypoint
             onEnter={(evt) => this.takeScreenShot(metadataImg)}
           />
-      </div>
+        </StyledCard>
       );
     });
   }
@@ -162,6 +188,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         <div style={{ position: 'absolute', top: '-1000px'}}>
           <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
         </div>
+
         {this.printImages(images)}
 
       </CenteredSection>
@@ -184,7 +211,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
   render() {
     return (
-      <div>
+      <div style={fullWidth}>
         {!this.state.finished ? this.renderImageEmotions() : this.renderFinishedScreen()}
       </div>
     );

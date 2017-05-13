@@ -1,4 +1,5 @@
 import { injectGlobal } from 'styled-components';
+import background from 'strand sonnenaufgang.jpg';
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
@@ -17,11 +18,17 @@ injectGlobal`
   }
 
   #app {
-    background-color: #fafafa;
+    background-color: #FDF9F6;
+    background-image: url(${background});
+    padding: 1em;
+    background-size: cover;
     min-height: 100%;
     min-width: 100%;
+    display: flex;
   }
-
+#app>div {
+  width: 100%;
+}
   p,
   label {
     line-height: 1.5em;

@@ -19,6 +19,25 @@ import { loadRepos } from '../App/actions';
 import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
 import Button from "../../components/Button/index";
+import styled from 'styled-components';
+import RaisedButton from 'material-ui/RaisedButton';
+
+const ProductName = styled.p`
+  font-size: 1.2em;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+`
+
+const style = {
+  margin: 12,
+  marginTop: '10em'
+};
+const rightstyle = {
+  'textAlign': 'right',
+  'fontSize': '1.25em'
+
+};
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -48,21 +67,16 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         />
         <div>
           <CenteredSection>
-            <H2>
-              I am just taking up space... quite sad
-            </H2>
             <H1>
-              GO SOMEWHERE WITHOUT KNOWING WHERE!
+              Discover Yourself
             </H1>
-            <H6>
-              Well you should, case you suck.. look at your face
-            </H6>
-            <Webcam ref='webcam' width="300" height="300"/>
-            <H2>
-              We'll show you some cool places, just use emotions to tell us what you like and we will book an holiday for
-              you and get you some cool clothes for it too!
-            </H2>
-            <Button href="holiday">Start</Button>
+            <p style={rightstyle} >
+              get inspired by <br/> destinations & fashion
+            </p>
+
+            {/*<Webcam ref='webcam' width="300" height="300"/>*/}
+            {/*<Button >Start</Button>*/}
+            <RaisedButton href="holiday" label="Start" fullWidth={true} primary={true} style={style} />
           </CenteredSection>
         </div>
       </article>
