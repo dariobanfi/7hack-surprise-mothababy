@@ -46,14 +46,14 @@ export default function createRoutes(store) {
           import('containers/ConfirmationPage/reducer'),
           import('containers/ConfirmationPage/sagas'),
           import('containers/ConfirmationPage'),
-        ])
+        ]);
 
         const renderRoute = loadModule(cb);
         importModules.then(([reducer, sagas, component]) => {
-          injectReducer('confirmation', reducer.default)
-          injectSagas(sagas.default)
+          injectReducer('confirmation', reducer.default);
+          injectSagas(sagas.default);
           renderRoute(component)
-        })
+        });
 
         importModules.catch(errorLoading)
       },
@@ -64,27 +64,6 @@ export default function createRoutes(store) {
         import('containers/Holiday')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
-    }, {
-      path: '/destination',
-      name: 'destination',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          import('containers/Destination/reducer'),
-          import('containers/Destination/sagas'),
-          import('containers/Destination')
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('destination', reducer.default)
-          injectSagas(sagas.default);
-
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
       },
     }, {
       path: '*',

@@ -18,18 +18,18 @@ const Wrapper = styled.div`
   margin: 70px auto;
   padding: 0 20px 0 20px;
   max-width: 1000px;
-`
+`;
 
 const Products = styled.div`
   margin: 10px auto;
   display: flex;
   justify-content: center;
-`
+`;
 
 const Product = styled.div`
   margin-left: 15px;
   margin-right: 15px;
-`
+`;
 
 const ProductName = styled.div`
   font-size: 1.2em;
@@ -38,21 +38,41 @@ const ProductName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 const ProductImage = styled.img`
   display: block;
   width: 100px;
-`
+`;
 
 class ConfirmationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    const summerOccasion = 4007 // 4008
-    this.props.dispatch(requestProducts(summerOccasion))
+    const interest = this.props.interests.keyOf(this.props.interests.max());
+    if (!interest) {
+      return;
+    }
+    const occasion = this.mapInterestToOccasion(interest);
+    console.log('Requesting clothes for ', occasion);
+    this.props.dispatch(requestProducts(occasion))
   }
 
+  mapInterestToOccasion(interest) {
+    const interestToOccasionMap = {
+      nature: 4022, // Freizeit
+      exotic: 4014, //Sommer,
+      beach: 4007, // Strand
+      party: 4003, // Party
+      city: 4004 // Büro
+    };
+    return interestToOccasionMap[interest];
+  };
+
   renderProducts(products) {
+    console.log(products);
+    if (!products) {
+      return;
+    }
     return products.slice(0, 3).map((value) => {
       const id = value.id
       const name = value.name
@@ -79,7 +99,7 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           <CenteredSection>
             <H1>We choose a destination for you! 👻</H1>
             <div>Sneak Peak: During your stay the weather will mostly sunny.</div>
-            <H2>We bought those clothes for you, can you guess where you will go?.</H2>
+            <H2>We bought those clothes for you, can you guess where you will go?</H2>
             <Products>
               { this.renderProducts(tops) }
             </Products>
@@ -101,7 +121,8 @@ function mapStateToProps(state) {
     //stateString: JSON.stringify(state),
     tops: state.get("confirmation").get("tops"),
     pants: state.get("confirmation").get("pants"),
-    shoes: state.get("confirmation").get("shoes")
+    shoes: state.get("confirmation").get("shoes"),
+    interests: state.get("holiday").get("interests")
   }
 }
 
