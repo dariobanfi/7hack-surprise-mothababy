@@ -13,6 +13,11 @@ import CenteredSection from "../HomePage/CenteredSection";
 import H1 from "../../components/H1/index";
 import H2 from "../../components/H2/index";
 
+const Teaser = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  margin-top: 30px;
+`
 
 const Wrapper = styled.div`
   margin: 70px auto;
@@ -31,15 +36,6 @@ const Product = styled.div`
   margin-right: 15px;
 `
 
-const ProductName = styled.div`
-  font-size: 1.2em;
-  padding: 10px;
-  width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
 const ProductImage = styled.img`
   display: block;
   width: 100px;
@@ -48,13 +44,34 @@ const ProductImage = styled.img`
 class ConfirmationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    const summerOccasion = 4007 // 4008
-    this.props.dispatch(requestProducts(summerOccasion));
+    //const interest = this.props.interests.keyOf(this.props.interests.max())
+    const interest = "beach"
+    if (!interest) {
+      return
+    }
+    const occasion = this.mapInterestToOccasion(interest)
+    console.log('Requesting clothes for ', occasion)
+    this.props.dispatch(requestProducts(occasion))
+
     const coordinates = { latitude: 48.137154, longitude: 11.576124}
     this.props.dispatch(requestWeather(coordinates))
   }
 
+  mapInterestToOccasion(interest) {
+    const interestToOccasionMap = {
+      nature: 4022, // Freizeit
+      exotic: 4014, //Sommer,
+      beach: 4007, // Strand
+      party: 4003, // Party
+      city: 4004 // Büro
+    };
+    return interestToOccasionMap[interest];
+  };
+
   renderProducts(products) {
+    if (!products) {
+      return;
+    }
     return products.slice(0, 3).map((value) => {
       const id = value.id
       const name = value.name
@@ -74,8 +91,8 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
   }
 
   render() {
+    console.log(this.props)
     const { tops, pants, shoes, weather } = this.props
-    console.log(weather)
     return (
       <div>
         <Helmet
@@ -87,8 +104,10 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
         <Wrapper>
           <CenteredSection>
             <H1>We choose a destination for you! 👻</H1>
-            <div>{ weather && this.renderWeather(weather) }</div>
-            <H2>We bought those clothes for you, can you guess where you will go?.</H2>
+            <Teaser>
+              { weather && this.renderWeather(weather) }
+              &nbsp;We also bought these clothes for you, can you guess where you will go?
+            </Teaser>
             <Products>
               { this.renderProducts(tops) }
             </Products>
@@ -108,11 +127,11 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
 function mapStateToProps(state) {
   const confirmationState = state.get("confirmation")
   return {
-    //stateString: JSON.stringify(state),
     tops: confirmationState.get("tops"),
     pants: confirmationState.get("pants"),
     shoes: confirmationState.get("shoes"),
-    weather: confirmationState.get("weather")
+    weather: confirmationState.get("weather"),
+    interests: state.get("holiday").get("interests"),
   }
 }
 
