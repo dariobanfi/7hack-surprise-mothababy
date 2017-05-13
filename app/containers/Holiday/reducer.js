@@ -7,17 +7,17 @@
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
-  data: null
+  emotion: null,
 });
 
 function holidayReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_LOCALE:
+    case 'CHANGE_EMOTION':
       return state
-        .set('locale', action.locale);
+        .set('emotion', action.emotion);
     default:
       return state;
   }
 }
 
-export default languageProviderReducer;
+export default holidayReducer;

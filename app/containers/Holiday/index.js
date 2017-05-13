@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import Img from "../../components/Header/Img";
@@ -8,7 +7,11 @@ import Waypoint from 'react-waypoint';
 import Webcam from 'react-webcam';
 // fetch doesn't support Blobs, sorry for jQuery -.-
 import jquery from "jquery";
+import { createSelector } from 'reselect';
 
+import { makeSelectEmotion } from './selectors';
+import {changeEmotion} from "./actions";
+import {fromJS} from 'immutable';
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -60,7 +63,6 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
           <Waypoint
             onEnter={(evt) => this.takeScreenShot(metadataImg)}
           />
-          <Img src={this.state.screenshot} />
       </div>
       );
     });
@@ -81,6 +83,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   sendBlob(blob) {
+    const that = this;
   jquery.ajax({
       url: '  https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
       type: 'POST',
@@ -89,7 +92,12 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       contentType: 'application/octet-stream',
       data: blob
     })
-    .done(function(data) {console.log("success");})
+    .done((data) => {
+      const emotions = fromJS(data[0].scores);
+      console.log(emotions.toJS())
+      const emotion = emotions.keyOf(emotions.max());
+      that.props.onChangeEmotion(emotion)
+    })
     .fail(function() {console.log("error");});
   }
 
@@ -98,7 +106,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       <div>
         {/*Hiding it because noone wants to see your ugly face*/}
         <div style={{ position: 'absolute', top: '-1000px'}}>
-          <Webcam ref='webcam' width="500" height="500"/>
+          <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
         </div>
         {this.printImages()}
       </div>
@@ -106,6 +114,16 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 }
 
-export default connect(createStructuredSelector({
-  currentUser: makeSelectCurrentUser(),
-}))(Holiday);
+export function mapDispatchToProps(dispatch) {
+  return {
+    onChangeEmotion: (emotion) => dispatch(changeEmotion(emotion)),
+  };
+}
+
+
+const mapStateToProps = createSelector(
+  makeSelectEmotion(),
+  (emotion) => ({ emotion })
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Holiday);
