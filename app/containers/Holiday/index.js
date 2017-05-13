@@ -16,12 +16,34 @@ import H1 from "../../components/H1/index";
 import CenteredSection from "../HomePage/CenteredSection";
 import H3 from "../../components/H3/index";
 import H2 from "../../components/H2/index";
+import image1 from './1.jpg'
+import image2 from './2.jpg'
+import image3 from './3.jpg'
+import image4 from './4.jpg'
+import image5 from './5.jpg'
+import image6 from './6.jpg'
+import image7 from './7.jpg'
+import image8 from './8.jpg'
+import image9 from './9.jpg'
+import image10 from './10.jpg'
+import image11 from './11.jpg'
+import image12 from './12.jpg'
+import image13 from './13.jpg'
+import image14 from './14.jpg'
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
     super(props);
     this.state = { screenshot: null, finished: false };
+  }
+
+  componentDidMount() {
+    jquery(window).scroll(() => {
+      if(jquery(window).scrollTop() + jquery(window).height() == jquery(document).height()) {
+        this.showSuccessScreen()
+      }
+    });
   }
 
   makeBlob = function (dataURL) {
@@ -114,13 +136,20 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   renderImageEmotions() {
 
     const images = [
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['city', 'cafe']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['mountain']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['outdoors']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['party', 'beach']},
-      { img: 'https://www.placecage.com/g/400/500', tags: ['culture']}
+      { img: image1, tags: ['nature', 'exotic' ]},
+      { img: image2, tags: ['nature']},
+      { img: image3, tags: ['beach']},
+      { img: image4, tags: ['party', 'city']},
+      { img: image5, tags: ['exotic']},
+      { img: image6, tags: ['beach']},
+      { img: image7, tags: ['culture']},
+      { img: image8, tags: ['culture']},
+      { img: image9, tags: ['beach']},
+      { img: image10, tags: ['city']},
+      { img: image11, tags: ['party']},
+      { img: image12, tags: ['exotic']},
+      { img: image13, tags: ['city']},
+      { img: image14, tags: ['city']},
     ];
 
 
@@ -134,8 +163,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
           <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
         </div>
         {this.printImages(images)}
-        <Waypoint
-          onEnter={(evt) => this.showSuccessScreen()} />
+
       </CenteredSection>
     )
   }
