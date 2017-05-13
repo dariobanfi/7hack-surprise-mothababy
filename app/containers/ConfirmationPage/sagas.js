@@ -16,32 +16,60 @@ import { makeSelectOccasion } from './selectors'
 export function* getProducts() {
   // Select username from store
   const occasion = yield select(makeSelectOccasion())
-  const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
+  console.log(occasion)
+  //const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
+  const makeUrl = (categoryId) => `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=women&category=${categoryId}`
 
   try {
-    // Call our request helper (see 'utils/request')
-    const response = yield call(request, requestURL)
+    const apparel = [
+      { type: 'tops', categoryId: 10472},
+      { type: 'pants', categoryId: 10299},
+      { type: 'shoes', categoryId: 10580},
+    ]
 
-    yield put(requestProductsSuccess(response.products))
+    for (let apparelItem of apparel) {
+      // Call our request helper (see 'utils/request')
+      const response = yield call(request, makeUrl(apparelItem.categoryId))
+      yield put(requestProductsSuccess(apparelItem.type, response.products))
+    }
   } catch (err) {
     yield put(requestProductsError(err))
   }
 }
 
-/**
- * Root saga manages watcher lifecycle
 
-export function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  const watcher = yield takeLatest(LOAD_REPOS, getRepos);
+export function* productsData() {
+  const watcher = yield takeLatest(REQUEST_PRODUCTS, getProducts)
 
-  // Suspend execution until location changes
-  yield take(LOCATION_CHANGE);
-  yield cancel(watcher);
+  yield take(LOCATION_CHANGE)
+  yield cancel(watcher)
 }
-*/
+
+
+export function* getProducts() {
+  // Select username from store
+  const occasion = yield select(makeSelectOccasion())
+  console.log(occasion)
+  //const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
+  const makeUrl = (categoryId) => `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=women&category=${categoryId}`
+
+  try {
+    const apparel = [
+      { type: 'tops', categoryId: 10472},
+      { type: 'pants', categoryId: 10299},
+      { type: 'shoes', categoryId: 10580},
+    ]
+
+    for (let apparelItem of apparel) {
+      // Call our request helper (see 'utils/request')
+      const response = yield call(request, makeUrl(apparelItem.categoryId))
+      yield put(requestProductsSuccess(apparelItem.type, response.products))
+    }
+  } catch (err) {
+    yield put(requestProductsError(err))
+  }
+}
+
 
 export function* productsData() {
   const watcher = yield takeLatest(REQUEST_PRODUCTS, getProducts)
@@ -52,5 +80,5 @@ export function* productsData() {
 
 // Bootstrap sagas
 export default [
-  productsData
+  productsData,
 ]

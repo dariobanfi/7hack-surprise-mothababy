@@ -7,6 +7,7 @@ const makeSelectOccasion = () => createSelector(
   (confirmationState) => confirmationState.get('occasion')
 )
 
+
 export {
   makeSelectOccasion
 }
