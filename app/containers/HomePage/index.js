@@ -63,7 +63,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               We'll show you some cool places, just use emotions to tell us what you like and we will book an holiday for
               you and get you some cool clothes for it too!
             </H2>
-            <Button>Start</Button>
+            <Button href="holiday">Start</Button>
           </CenteredSection>
         </div>
       </article>
