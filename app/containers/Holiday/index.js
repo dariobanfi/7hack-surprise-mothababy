@@ -9,23 +9,20 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
+import Img from "../../components/Header/Img";
 
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
-        <img src="https://www.placecage.com/g/800/600"></img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
+        <Img src="https://www.placecage.com/g/400/500"></Img>
       </div>
     );
   }
