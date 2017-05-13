@@ -24,7 +24,7 @@ export default function createRoutes(store) {
         const importModules = Promise.all([
           import('containers/HomePage/reducer'),
           import('containers/HomePage/sagas'),
-          import('containers/HomePage'),
+          import('containers/HomePage')
         ]);
 
         const renderRoute = loadModule(cb);
@@ -53,6 +53,25 @@ export default function createRoutes(store) {
         import('containers/Holiday')
           .then(loadModule(cb))
           .catch(errorLoading);
+      },
+    }, {
+      path: '/destination',
+      name: 'destination',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/Destination/sagas'),
+          import('containers/Destination')
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     }, {
       path: '*',
