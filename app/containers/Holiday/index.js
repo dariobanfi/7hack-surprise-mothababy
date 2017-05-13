@@ -29,10 +29,11 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     return imagesWithMetadata.map((metadataImg, index) => {
       return (
         <div key={index}>
-          <Img src={metadataImg.img} />
+          <Img src={metadataImg.img}  />
           <Waypoint
             onEnter={(evt) => this.takeScreenShot(metadataImg)}
           />
+          <Img src={this.state.screenshot} />
       </div>
       );
     });
@@ -41,15 +42,16 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   takeScreenShot(visibleItem) {
     console.log('Took your photo while looking at', visibleItem);
     const screenshot = this.refs.webcam.getScreenshot();
+    console.log(screenshot);
     this.setState({screenshot: screenshot});
-    console.log(this.state.screenshot);
   }
 
   render() {
     return (
       <div>
-        <div style={{display: 'none'}}>
-          <Webcam ref='webcam'/>
+        {/*Hiding it because noone wants to see your ugly face*/}
+        <div style={{ position: 'absolute', top: '-1000px'}}>
+          <Webcam ref='webcam' width="500" height="500"/>
         </div>
         {this.printImages()}
       </div>
