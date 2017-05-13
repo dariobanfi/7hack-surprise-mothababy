@@ -11,6 +11,7 @@ export function requestProducts(occasion) {
 export const REQUEST_PRODUCTS_SUCCESS = 'REQUEST_PRODUCTS_SUCCESS'
 
 export function requestProductsSuccess(products) {
+  console.log(products)
   return {
     type: REQUEST_PRODUCTS_SUCCESS,
     products

@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const selectGlobal = (state) => state.get('global');
+const selectConfirmation = (state) => state.get('confirmation');
 
 const makeSelectOccasion = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('occasion')
+  selectConfirmation,
+  (confirmationState) => confirmationState.get('occasion')
 )
 
 export {
