@@ -18,8 +18,7 @@
 import {
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
-  PICK_DESTINATION,
+  LOAD_REPOS_ERROR,  
 } from './constants';
 
 /**
@@ -63,19 +62,3 @@ export function repoLoadingError(error) {
   };
 }
 
-/**
- * Dispatched when loading the repositories fails
- * 
- * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
- */
-export function pickDestination() {
-  return {
-    type: PICK_DESTINATION,
-  };
-}
-
-export function setDestination(destination) {
-  return {
-    type: PICK_DESTINATION
-  }
-}

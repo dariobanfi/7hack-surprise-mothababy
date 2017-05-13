@@ -4,30 +4,31 @@
 
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { PICK_DESTINATION } from 'containers/App/constants';
+import { 
+  PICK_DESTINATION,
+  PICK_DESTINATION_SUCCESS,
+  PICK_DESTINATION_ERROR, } from './constants';
 
+import { pickDestination, setDestination, pickDestinationError } from './actions';
 import request from 'utils/request';
 
 export function* getDestinations() {
-
-  const destionation = "turkey"
-  const products_api_endpoint = "http://7hack.comvel.net:80/weg.de/v1/products?apikey=7Hack%212017&channel=HOTEL"
-
-  console.log("gestDestinations saga called")
+  
+  const destination = "turkey"
+  const products_api_endpoint = "http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE"
 
   try {
     // Call our request helper (see 'utils/request')
-    const repos = yield call(request, products_api_endpoint, {'mode': 'no-cors'});
-
-    yield put(destionation(destination));
+    const data = yield call(request, products_api_endpoint);
+    yield put(setDestination(destination, data.response));
   } catch (err) {
-    yield put(repoLoadingError(err));
+    yield put(pickDestinationError(err));
   }
 
 }
 
 export function*  destinationData() {
-  console.log("destinationData called")
+  
   const watcher = yield takeLatest(PICK_DESTINATION, getDestinations);
 
   // Suspend execution until location changes
@@ -37,5 +38,5 @@ export function*  destinationData() {
 
 // Bootstrap sagas
 export default [
-  destinationData,
+  destinationData
 ];

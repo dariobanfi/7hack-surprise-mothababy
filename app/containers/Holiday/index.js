@@ -81,6 +81,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   }
 
   sendBlob(blob) {
+    console.log(blob)
   jquery.ajax({
       url: '  https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
       type: 'POST',
