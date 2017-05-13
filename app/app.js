@@ -32,7 +32,7 @@ import LanguageProvider from 'containers/LanguageProvider';
 import '!file-loader?name=[name].[ext]!./favicon.ico';
 import '!file-loader?name=[name].[ext]!./icons/helios-48.png';
 import '!file-loader?name=[name].[ext]!./icons/helios-72.png';
-import '!file-loader?name=[name].[ext]!./icons/helios-92.png';
+import '!file-loader?name=[name].[ext]!./icons/helios-96.png';
 import '!file-loader?name=[name].[ext]!./icons/helios-144.png';
 import '!file-loader?name=[name].[ext]!./icons/helios-192.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
