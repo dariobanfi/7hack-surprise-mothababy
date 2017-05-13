@@ -6,7 +6,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux'
-import { requestProducts } from './actions'
+import { requestProducts, requestWeather } from './actions'
 
 import styled from 'styled-components'
 import CenteredSection from "../HomePage/CenteredSection";
@@ -49,7 +49,9 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
 
   componentDidMount() {
     const summerOccasion = 4007 // 4008
-    this.props.dispatch(requestProducts(summerOccasion))
+    this.props.dispatch(requestProducts(summerOccasion));
+    const coordinates = { latitude: 48.137154, longitude: 11.576124}
+    this.props.dispatch(requestWeather(coordinates))
   }
 
   renderProducts(products) {
@@ -65,8 +67,15 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     })
   }
 
+  renderWeather(weather) {
+    const { minTemp, maxTemp, weatherCondition } = weather
+    return `Sneak Peek: During your stay temperatures will vary between ${minTemp} \
+    and ${maxTemp} °C and you will have ${weatherCondition}.`
+  }
+
   render() {
-    const { tops, pants, shoes } = this.props
+    const { tops, pants, shoes, weather } = this.props
+    console.log(weather)
     return (
       <div>
         <Helmet
@@ -78,7 +87,7 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
         <Wrapper>
           <CenteredSection>
             <H1>We choose a destination for you! 👻</H1>
-            <div>Sneak Peak: During your stay the weather will mostly sunny.</div>
+            <div>{ weather && this.renderWeather(weather) }</div>
             <H2>We bought those clothes for you, can you guess where you will go?.</H2>
             <Products>
               { this.renderProducts(tops) }
@@ -97,11 +106,13 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
 }
 
 function mapStateToProps(state) {
+  const confirmationState = state.get("confirmation")
   return {
     //stateString: JSON.stringify(state),
-    tops: state.get("confirmation").get("tops"),
-    pants: state.get("confirmation").get("pants"),
-    shoes: state.get("confirmation").get("shoes")
+    tops: confirmationState.get("tops"),
+    pants: confirmationState.get("pants"),
+    shoes: confirmationState.get("shoes"),
+    weather: confirmationState.get("weather")
   }
 }
 
