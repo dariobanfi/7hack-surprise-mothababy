@@ -81,6 +81,7 @@ const rootRoute = {
   childRoutes: createRoutes(store),
 };
 
+console.warn = undefined;
 const render = (messages) => {
   ReactDOM.render(
     <Provider store={store}>
