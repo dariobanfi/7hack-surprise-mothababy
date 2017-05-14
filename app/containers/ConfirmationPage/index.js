@@ -14,7 +14,6 @@ import H1 from "../../components/H1/index"
 import H2 from "../../components/H2/index"
 import RaisedButton from 'material-ui/RaisedButton';
 
-
 import {GridList, GridTile} from 'material-ui/GridList'
 
 import jquery from "jquery";
@@ -102,6 +101,9 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
   }
 
   renderBrands(products) {
+    if (!products) {
+      return
+    }
     const brands = _.filter(_.uniqBy(products.map((value) => value.brand), (e) => e.id), (e) => _.isString(e.logo)).slice(0,3)
     return brands.map((value) => {
       const { id, name, logo } = value
@@ -111,11 +113,14 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
 
   render() {
     const { tops, pants, shoes } = this.props
+    if (!tops || !pants || !shoes) {
+      return <H1>Stylight API is down :)</H1>;
+    }
     const products = [
       ...tops.slice(0,4),
       ...pants.slice(0,4),
       ...shoes.slice(0,4)
-    ]
+    ];
     return (
       <div>
         <Helmet

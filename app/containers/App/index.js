@@ -16,6 +16,8 @@ import withProgressBar from 'components/ProgressBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 const AppWrapper = styled.div`
   margin: 0 auto;
   display: flex;
