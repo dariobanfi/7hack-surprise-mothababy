@@ -5,14 +5,16 @@
 import _ from 'lodash'
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
-import { REQUEST_WEATHER } from './actions'
+import { REQUEST_WEATHER, REQUEST_LOAN } from './actions'
 import {
   requestWeatherSuccess,
-  requestWeatherError
+  requestWeatherError,
+  requestLoanSuccess,
+  requestLoanError,
 } from './actions'
 
 import request from 'utils/request'
-import { makeSelectCoordinates } from './selectors'
+import { makeSelectCoordinates, makeSelectAmount } from './selectors'
 import md5 from 'md5'
 import { mapWeatherCondition } from './utils'
 
@@ -69,7 +71,28 @@ export function* weatherData() {
 }
 
 
+export function* getLoanConditions() {
+  const amount = yield select(makeSelectAmount())
+  const verivoxUrl = `https://www.verivox.de/applications/loan/service/installment/monthly/${amount}/3`
+
+  try {
+    const offers = yield call(request, verivoxUrl)
+
+    yield put(requestLoanSuccess(offers[0]))
+  } catch (err) {
+    yield put(requestLoanError(err))
+  }
+}
+
+export function* loanData() {
+  const watcher = yield takeLatest(REQUEST_LOAN, getLoanConditions)
+
+  yield take(LOCATION_CHANGE)
+  yield cancel(watcher)
+}
+
 // Bootstrap sagas
 export default [
   weatherData,
+  loanData
 ]
