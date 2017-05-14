@@ -6,9 +6,10 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { requestWeather } from './actions'
+import { requestWeather, requestLoan } from './actions'
 
 import styled, { keyframes } from 'styled-components'
+import RaisedButton from 'material-ui/RaisedButton';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -38,6 +39,9 @@ class SummaryPage extends React.Component { // eslint-disable-line react/prefer-
   componentDidMount() {
     const coordinates = { latitude: 48.137154, longitude: 11.576124 }
     this.props.dispatch(requestWeather(coordinates))
+
+    const amount = 600
+    this.props.dispatch(requestLoan(amount))
   }
 
   renderWeather(weather) {
@@ -51,8 +55,14 @@ class SummaryPage extends React.Component { // eslint-disable-line react/prefer-
     return <WeatherIcon src={weatherIcon} alt={weatherDescription} />
   }
 
+  renderLoan(loanConditions) {
+    const { Duration, Rate, Details } = loanConditions
+    return `Get a loan to finance your trip from ${Details.BankName} \
+    for only ${Rate}€ per month for ${Duration} months.`
+  }
+
   render() {
-    const { weather } = this.props
+    const { weather, loanConditions } = this.props
     return (
       <Wrapper>
         <Helmet
@@ -74,6 +84,8 @@ class SummaryPage extends React.Component { // eslint-disable-line react/prefer-
         </Splitter>
         <StyledDiv>{ weather && this.renderWeatherIcon(weather) }</StyledDiv>
         <StyledDiv>{ weather && this.renderWeather(weather) }</StyledDiv>
+        <StyledDiv><RaisedButton label="Travel now, pay later." primary={true} /></StyledDiv>
+        <StyledDiv>{ loanConditions && this.renderLoan(loanConditions) }</StyledDiv>
       </Wrapper>
     )
   }
@@ -82,7 +94,8 @@ class SummaryPage extends React.Component { // eslint-disable-line react/prefer-
 function mapStateToProps(state) {
   const summaryState = state.get("summary")
   return {
-    weather: summaryState.get("weather")
+    weather: summaryState.get("weather"),
+    loanConditions: summaryState.get("conditions"),
   }
 }
 

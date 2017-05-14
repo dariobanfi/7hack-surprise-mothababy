@@ -11,29 +11,6 @@ import { createStructuredSelector } from 'reselect';
 
 import styled, { keyframes } from 'styled-components';
 
-const destinations = [
-  { city: "Amsterdam", id: 1290 },
-  { city: "Barcelona", id: 1504 },
-  { city: "Budapest", id: 1271 },
-  { city: "Edinburgh", id: 800 },
-  { city: "Ibiza", id: 129 },
-  { city: "Istanbul", id: 147 },
-  { city: "Kopenhagen", id: 687 },
-  { city: "London", id: 1267 },
-  { city: "Madrid", id: 935 },
-  { city: "Paris", id: 883 },
-  { city: "Prag", id: 1212 },
-  { city: "Rom", id: 433 },
-  { city: "Split", id: 1326 },
-  { city: "Stockholm", id: 1306 },
-  { city: "Tallinn", id: 473 },
-  { city: "Zagreb", id: 90 },
-  { city: "Ancona", id: 77 },
-  { city: "Athen", id: 30 },
-  { city: "Berlin", id: 618 },
-  { city: "Wien", id: 701 },
-];
-
 import {makeSelectEmotion, makeSelectInterests} from './selectors';
 import {changeEmotion, changeInterests, changeReaction} from "./actions";
 import {fromJS} from 'immutable';
@@ -207,7 +184,6 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       console.log('Those are your interests: ', that.props.interests.toJS());
     })
     .fail(function() {
-      console.log("error");
       that.props.onChangeReaction(index, 2)
     });
   }
@@ -230,13 +206,12 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       { img: image7, tags: ['culture']},
       // { img: image8, tags: ['culture']},
       // { img: image9, tags: ['beach']},
-      { img: image10, tags: ['city']},
+      // { img: image10, tags: ['city']},
       { img: image11, tags: ['party']},
       { img: image12, tags: ['exotic']},
       // { img: image13, tags: ['city']},
       { img: image14, tags: ['city']},
     ];
-
 
     return (
       <CenteredSection>
@@ -248,7 +223,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         <img src="http://keymarketing.com/wordpress/wp-content/themes/keymarketing/dist/img/arrowdown.svg" style={{height: '160px', paddingBottom: '10px'}}/>
         {/*Hiding it because noone wants to see your ugly face*/}
         <div style={{ position: 'absolute', top: '-1000px'}}>
-          <Webcam screenshotFormat='image/jpeg' ref='webcam' width="1000" height="1000"/>
+          <Webcam screenshotFormat='image/jpeg' ref='webcam' width="500" height="500"/>
         </div>
 
         {this.printImages(images)}
@@ -257,10 +232,48 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       </CenteredSection>
     )
   }
+  mapCategoryToCity(area) {
+    const categoryToCityMap = {
+      nature: 'Wien',
+      beach: 'Barcelona',
+      party: 'Amsterdam',
+      city: 'London',
+      exotic: 'Ibiza',
+      culture: 'Rome',
+    };
+    return categoryToCityMap[area];
+  }
 
   renderFinishedScreen() {
-    console.log('The category the user would like to see is: ', this.props.interests.keyOf(this.props.interests.max()));
-    console.log('Booking from weg.de: ', this.props.interests.keyOf(this.props.interests.max()));
+
+
+    const destinations = fromJS([
+      { city: "Amsterdam", id: 1290 },
+      { city: "Barcelona", id: 1504 },
+      { city: "Budapest", id: 1271 },
+      { city: "Edinburgh", id: 800 },
+      { city: "Ibiza", id: 129 },
+      { city: "Istanbul", id: 147 },
+      { city: "Kopenhagen", id: 687 },
+      { city: "London", id: 1267 },
+      { city: "Madrid", id: 935 },
+      { city: "Paris", id: 883 },
+      { city: "Prag", id: 1212 },
+      { city: "Rom", id: 433 },
+      { city: "Split", id: 1326 },
+      { city: "Stockholm", id: 1306 },
+      { city: "Tallinn", id: 473 },
+      { city: "Zagreb", id: 90 },
+      { city: "Ancona", id: 77 },
+      { city: "Athen", id: 30 },
+      { city: "Berlin", id: 618 },
+      { city: "Wien", id: 701 },
+    ]);
+
+
+    const category = this.props.interests.keyOf(this.props.interests.max());
+    const city = this.mapCategoryToCity(category);
+
     this.props.onChangeEmotion(null);
     return (
     <div>

@@ -11,6 +11,9 @@ import Button from 'components/Button';
 import { pickDestination } from './actions';
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import { makeSelectReactions } from './selectors'
+import H1 from "../../components/H1/index";
+import * as jquery from "jquery";
+import H2 from "../../components/H2/index";
 
 export const CITIES = [
   "Amsterdam", "Barcelona", "Budapest", "Edinburgh", "Ibiza",
@@ -57,14 +60,14 @@ export const PICTURES = [
   [9,	3,	0,	0,	4,	0], //4
   [0,	2,	3,	3,	3,	9], //5
   [0,	0,	7,	3,	5,	1], //7
-  [4,	1,	7,	2,	6,	1], //10
+  // [4,	1,	7,	2,	6,	1], //10
   [8,	2,	3,	2,	6,	1], //11
   [2,	3,	7,	6,	2,	9], //12
-  [0,	0,	9,	0,	6,	0], //13
+  // [0,	0,	9,	0,	6,	0], //13
   [6,	0,	6,	1,	9,	0]  //14
 ]
 
-function matchFeelings(feelings) {
+function  matchFeelings(feelings) {
   var result = [0, 0, 0, 0, 0, 0]
   for (var i = 0; i < PICTURES.length; i++) {
     for (var j = 0; j < result.length; j++) {
@@ -72,13 +75,10 @@ function matchFeelings(feelings) {
     }
   }
 
-  console.log(result)
-
   var sum = result.reduce(function(acc, val) {
     return acc + val
   }, 0)
 
-  console.log(sum)
   var normalized = result.map(elem => elem / sum * 100)
 
   return normalized
@@ -112,27 +112,44 @@ function calculateEuclidianDistance(vec1, vec2) {
 
 
 class Destination extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+
+  constructor(props) {
+    super(props);
+    this.state = {hotel: null, hotelType: null};
+  }
+
   componentWillMount() {
     const {destination, reactions} = this.props
-    console.log(destination)
 
     // const reactions = [2,0,1,0,2,1,2,2,1,2]
     console.log("reactions: " + reactions)
     var bckenP_indicator = matchFeelings(reactions);
-    console.log(bckenP_indicator)
     var dest_id = getBestCityMatch(bckenP_indicator)
     console.log(dest_id)
-    console.log("YOUR DESTINATION WILL BE: " + CITIES[dest_id.id])
+    const city = CITIES[dest_id.id];
+    console.log("Your destination will be: " + city);
+    jquery.get(`http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${dest_id.id}`).
+    done((data) => {
+      console.log('We booked from you at:', data.response.bestRatedHotel.comvelHotel.hotelName);
+      this.setState({hotel: data.response.bestRatedHotel.comvelHotel.hotelName})
+      console.log('Your room will be:', data.response.bestRatedHotel.roomType.name);
+      this.setState({hotelType: data.response.bestRatedHotel.roomType.name})
+    })
+      .fail(function() {console.log("error");});
+
 
     this.props.onPickDestination(CITY_IDS[dest_id.id])
   }
 
   render() {
-    const {destination, reactions} = this.props
+    const {destination, reactions} = this.props;
     return (
       <div>
-        <p>{ destination.get("response") && JSON.stringify(destination.get("response")) }</p>
-        <Button onClick={console.log}>yo</Button>
+        <H1>We chose an amazing hotel for you!</H1>
+        <p>It's supposed to be a surpise, but for this Hackaton we will tell you:</p>
+        <H2>{this.state.hotel}</H2>
+        <H2>{this.state.hotelType}</H2>
+        <Button href='confirmation'>Continue</Button>
       </div>
     );
   }

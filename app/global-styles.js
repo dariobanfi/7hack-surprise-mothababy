@@ -14,6 +14,7 @@ injectGlobal`
     background-repeat: no-repeat;
     background-position: center;
     color: #222222;
+    background-attachment: fixed;
   }
 
   body.fontLoaded {
