@@ -11,14 +11,11 @@ import { createStructuredSelector } from 'reselect';
 
 import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H1 from 'components/H1';
-import H2 from 'components/H2';
-import H6 from 'components/H6';
 import CenteredSection from './CenteredSection';
 import Webcam from 'react-webcam';
 import { loadRepos } from '../App/actions';
 import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
-import Button from "../../components/Button/index";
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import background from 'strand sonnenaufgang.jpg';
