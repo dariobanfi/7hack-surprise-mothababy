@@ -86,6 +86,7 @@ const render = (messages) => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <Router
+          onUpdate={() => window.scrollTo(0, 0)}
           history={history}
           routes={rootRoute}
           render={
