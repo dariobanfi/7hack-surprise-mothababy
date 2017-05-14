@@ -80,11 +80,11 @@ function matchFeelings(feelings) {
 function getBestCityMatch(normalizedFeelingsMatch) {
   var bestMatch = {
     'id': -1,
-    'matchValue': 10000
+    'matchValue': 100000
   }
 
   for(var i = 0; i < RATINGS.length; i++) {
-    var matchVal = calculateVectorDistance(normalizedFeelingsMatch, RATINGS[i]);
+    var matchVal = calculateEuclidianDistance(normalizedFeelingsMatch, RATINGS[i]);
 
     if(matchVal < bestMatch.matchValue) {
       bestMatch.id = i
@@ -95,12 +95,12 @@ function getBestCityMatch(normalizedFeelingsMatch) {
   return bestMatch
 }
 
-function calculateVectorDistance(vec1, vec2) {
-  var result = []
+function calculateEuclidianDistance(vec1, vec2) {
+  var result = 0
   for(var i = 0; i < vec1.length; i++) {
-    result[i] = Math.abs(vec1[i] - vec2[i])
+    result += Math.pow(vec1[i] - vec2[i], 2)
   }
-  return result.reduce((acc, val) => acc + val, 0)
+  return Math.sqrt(result)
 }
 
 
@@ -112,7 +112,7 @@ class Destination extends React.PureComponent { // eslint-disable-line react/pre
     var bckenP_indicator = matchFeelings([2,0,1,0,2,1,2,2,1,2]);
     console.log(bckenP_indicator)
     var dest_id = getBestCityMatch(bckenP_indicator)
-
+    console.log(dest_id)
     console.log("YOUR DESTINATION WILL BE: " + CITIES[dest_id.id])
     return (
       <div>
