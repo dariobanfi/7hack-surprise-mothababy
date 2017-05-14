@@ -10,14 +10,17 @@ import {
   PICK_DESTINATION_ERROR, } from './constants';
 
 import { pickDestination, setDestination, pickDestinationError } from './actions';
+import { makeSelectRegion } from './selectors'
 import request from 'utils/request';
 
 export function* getDestinations() {
 
-  var destinationQuery = "Athen"
-  const destinations_api_endpoint = `http://wegde.instigator.io/weg.de/v1/destinations?apikey=7Hack%212017&query=${destinationQuery}`
-  const products_api_endpoint  = `http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${region}`
-  var regionId = 0;
+  let region = yield select(makeSelectRegion())
+  region = region || 90
+  //var destinationQuery = "Athen"
+  //const destinations_api_endpoint = `http://wegde.instigator.io/weg.de/v1/destinations?apikey=7Hack%212017&query=${destinationQuery}`
+  const products_api_endpoint  = `http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${region}&price=200`
+  //var regionId = 0;
 
   // fetch(destinations_api_endpoint)
   // .then(data => {

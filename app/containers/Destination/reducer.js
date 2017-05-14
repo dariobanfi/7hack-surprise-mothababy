@@ -11,7 +11,8 @@ const initialState = fromJS({
   loading: false,
   error: false,
   destination: {},
-  response: null
+  response: null,
+  region: null,
 });
 
 
@@ -23,6 +24,7 @@ function destinationReducer(state = initialState, action) {
         .set('error', false)
         .set('destination', {})
         .set('response', null)
+        .set('region', action.region)
     case PICK_DESTINATION_SUCCESS:
       return state
         .set('destination', action.destination)
