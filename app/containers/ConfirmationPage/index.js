@@ -18,7 +18,7 @@ import {GridList, GridTile} from 'material-ui/GridList'
 import jquery from "jquery";
 
 const Wrapper = styled.div`
-  margin: 70px auto;
+  margin: 30px auto;
   padding: 0 20px 0 20px;
   max-width: 1000px;
 `
@@ -126,6 +126,7 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
+          <p>A package with suitable clothes will be delivered and available at your hotel upon your arrival:</p>
           <Gallery className="gallery">
             { this.renderGalleryImages(products)}
           </Gallery>
