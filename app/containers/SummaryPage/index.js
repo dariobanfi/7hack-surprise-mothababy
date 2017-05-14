@@ -43,7 +43,7 @@ class SummaryPage extends React.Component { // eslint-disable-line react/prefer-
   renderWeather(weather) {
     const { minTemp, maxTemp, weatherDescription } = weather
     return `Sneak Peek: During your stay temperatures will vary between ${minTemp} \
-    and ${maxTemp} °C and you will have ${weatherDescription}.`
+    and ${maxTemp}°C and you will have ${weatherDescription}.`
   }
 
   renderWeatherIcon(weather) {

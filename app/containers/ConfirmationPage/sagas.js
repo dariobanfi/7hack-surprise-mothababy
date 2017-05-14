@@ -21,7 +21,7 @@ export function* getProducts() {
   // Select username from store
   const occasion = yield select(makeSelectOccasion())
   //const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
-  const makeUrl = (categoryId) => `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=women&category=${categoryId}`
+  const makeUrl = (categoryId) => `http://stylight.instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=women&category=${categoryId}`
 
   try {
     const apparel = [

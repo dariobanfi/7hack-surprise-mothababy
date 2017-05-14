@@ -120,6 +120,16 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       .fail(function() {console.log("error");});
   }
 
+  componentWillMount() {
+    document.body.style.backgroundImage = `url(${background})`;
+    document.querySelector("#app").style.backgroundColor = 'transparent';
+  };
+
+  componentWillUnmount() {
+    document.body.style.backgroundImage = `none`;
+    document.querySelector("#app").style.backgroundColor = '#ffffff';
+  };
+
   render() {
     const { loading, error, repos } = this.props;
     const reposListProps = {
@@ -128,8 +138,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       repos,
     };
 
-    document.body.style.backgroundImage = `url(${background})`
-    document.querySelector("#app").style.backgroundColor = 'transparent'
     return (
       <article>
         <Helmet
