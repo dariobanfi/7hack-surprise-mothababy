@@ -17,6 +17,14 @@ export const CITIES = [
   "Prag", "Rom", "Split", "Stockholm", "Tallinn",
   "Zagreb", "Ancona", "Athen", "Berlin", "Wien",
 ]
+
+export const CITY_IDS = [
+  1290, 1504, 1271, 800, 129,
+  147, 687, 1267, 935, 883,
+  1212, 433, 1326, 1306, 473,
+  90, 77, 30, 618, 701
+]
+
 export const RATINGS = [
   [35,	4,	22,	4,	30,	4],
   [29,	19,	16,	6,	26,	3],
@@ -54,8 +62,6 @@ export const PICTURES = [
   [0,	0,	9,	0,	6,	0], //13
   [6,	0,	6,	1,	9,	0]  //14
 ]
-
-// feelings = [0, 2, 1, 0, 1, 2, ... ]  10x1
 
 function matchFeelings(feelings) {
   var result = [0, 0, 0, 0, 0, 0]
