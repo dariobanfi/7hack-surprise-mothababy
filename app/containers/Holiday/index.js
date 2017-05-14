@@ -48,13 +48,6 @@ const myimageKeyframes = keyframes `
   to {background-position: 100% 0 ; }
 `
 
-const StyledCardMedia = styled ( CardMedia) `
-  height: 70vh;
-  animation: ${myimageKeyframes} 10s ease-in-out infinite alternate;
-  background-size: cover;
-  background-image: url('${props => props.image}');
-`
-
 
 export class Holiday extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -96,13 +89,45 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     return new Blob([uInt8Array], { type: contentType });
   };
 
+  mapEmotionToEmojii(emotion) {
+    if (emotion === 'anger') {
+      return '😡';
+    }
+    if (emotion === 'contempt') {
+      return '😩';
+    }
+    if (emotion === 'disgust') {
+      return '🤢';
+    }
+    if (emotion === 'happiness') {
+      return '😁';
+    }
+    if (emotion === 'fear') {
+      return '😱';
+    }
+    if (emotion === 'neutral') {
+      return '😐';
+    }
+    if (emotion === 'sadness') {
+      return '😞';
+    }
+    if (emotion === 'surprise') {
+      return '😯';
+    }
+  }
+
   printImages(images) {
 
     return images.map((metadataImg, index) => {
       return (
         <StyledCard key={index}>
-          <StyledCardMedia image={metadataImg.img}>
-        </StyledCardMedia>
+          <CardMedia  style={{
+            height: '70vh',
+            animation: `${myimageKeyframes} 10s ease-in-out infinite alternate`,
+            backgroundSize: `cover`,
+            backgroundImage: `url('${metadataImg.img}')`,
+          }}>
+        </CardMedia>
         <Waypoint
             onEnter={(evt) => this.takeScreenShot(metadataImg)}
           />
@@ -134,6 +159,9 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       data: blob
     })
     .done((data) => {
+      if(data.length < 1)
+        return
+
       const emotions = fromJS(data[0].scores);
       console.log('This is your reaction: ', emotions.toJS());
       const emotion = emotions.keyOf(emotions.max());
@@ -160,19 +188,19 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   renderImageEmotions() {
 
     const images = [
-      { img: image1, tags: ['nature', 'exotic' ]},
-      // { img: image2, tags: ['nature']},
+      // { img: image1, tags: ['nature', 'exotic' ]},
+      { img: image2, tags: ['nature']},
       { img: image3, tags: ['beach']},
       { img: image4, tags: ['party', 'city']},
-      // { img: image5, tags: ['exotic']},
-      { img: image6, tags: ['beach']},
+      { img: image5, tags: ['exotic']},
+      // { img: image6, tags: ['beach']},
       { img: image7, tags: ['culture']},
       // { img: image8, tags: ['culture']},
-      { img: image9, tags: ['beach']},
+      // { img: image9, tags: ['beach']},
       { img: image10, tags: ['city']},
-      // { img: image11, tags: ['party']},
+      { img: image11, tags: ['party']},
       { img: image12, tags: ['exotic']},
-      // { img: image13, tags: ['city']},
+      { img: image13, tags: ['city']},
       { img: image14, tags: ['city']},
     ];
 
@@ -188,6 +216,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         </div>
 
         {this.printImages(images)}
+        <p style={{position: 'fixed', bottom: 0, right: 0, fontSize: 48, margin: 0, padding: 0}}>{this.mapEmotionToEmojii(this.props.emotion)}</p>
 
       </CenteredSection>
     )

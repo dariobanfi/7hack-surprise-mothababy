@@ -6,16 +6,20 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { requestProducts, requestWeather } from './actions'
+import { requestProducts } from './actions'
 
 import styled, { keyframes } from 'styled-components'
 import CenteredSection from "../HomePage/CenteredSection"
 import H1 from "../../components/H1/index"
 import H2 from "../../components/H2/index"
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 import {GridList, GridTile} from 'material-ui/GridList'
 
 import jquery from "jquery";
+import H3 from "../../components/H3/index";
+import Link from "react-router/es/Link";
 
 const Wrapper = styled.div`
   margin: 30px auto;
@@ -28,6 +32,10 @@ const Gallery = styled.div`
   width: 300px;
   height: 300px;
   margin: 50px auto;
+`
+
+const StyledRaisedButton = styled (RaisedButton) `
+
 `
 
 const galleryFade = (index) =>  keyframes`
@@ -69,9 +77,6 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     const occasion = this.mapInterestToOccasion(interest)
     console.log('Requesting clothes for ', occasion)
     this.props.dispatch(requestProducts(occasion))
-
-    const coordinates = { latitude: 48.137154, longitude: 11.576124}
-    this.props.dispatch(requestWeather(coordinates))
   }
 
   mapInterestToOccasion(interest) {
@@ -104,14 +109,8 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     })
   }
 
-  renderWeather(weather) {
-    const { minTemp, maxTemp, weatherCondition } = weather
-    return `Sneak Peek: During your stay temperatures will vary between ${minTemp} \
-    and ${maxTemp} °C and you will have ${weatherCondition}.`
-  }
-
   render() {
-    const { tops, pants, shoes, weather } = this.props
+    const { tops, pants, shoes } = this.props
     const products = [
       ...tops.slice(0,4),
       ...pants.slice(0,4),
@@ -126,13 +125,16 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
-          <p>A package with suitable clothes will be delivered and available at your hotel upon your arrival:</p>
+          <H1>We also bought those clothes for you for this holiday!</H1>
+          <H3>They will wait you in the hotel</H3>
           <Gallery className="gallery">
             { this.renderGalleryImages(products)}
           </Gallery>
           <Brands>
             { this.renderBrands(products) }
           </Brands>
+          <StyledRaisedButton href="https://www.stylight.com/Clothing/" label="Take More" fullWidth={true} style={{margin: '0.5em auto', marginTop: '2em'}} />
+          <Link to="summary"><StyledRaisedButton label="Check Out" fullWidth={true} primary={true} /></Link>
         </Wrapper>
       </div>
     )
@@ -145,7 +147,6 @@ function mapStateToProps(state) {
     tops: confirmationState.get("tops"),
     pants: confirmationState.get("pants"),
     shoes: confirmationState.get("shoes"),
-    weather: confirmationState.get("weather"),
     interests: state.get("holiday").get("interests"),
   }
 }

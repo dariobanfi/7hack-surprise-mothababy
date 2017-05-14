@@ -9,6 +9,9 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
@@ -42,16 +45,18 @@ const rightstyle = {
 };
 
 import jquery from "jquery";
+import {Link} from "react-router";
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
    */
-  componentDidMount() {
-    setTimeout(() => {
-      this.takeScreenShot();
-    },3000);
-  }
+  // Disabled because Microsft API doesn't work
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.takeScreenShot();
+  //   },3000);
+  // }
 
   makeBlob = function (dataURL) {
     if (!dataURL) {
@@ -80,6 +85,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
 
   takeScreenShot() {
+    if (!this.refs.webcam) {
+      return;
+    }
     const screenshot = this.refs.webcam.getScreenshot();
     this.setState({screenshot: screenshot});
     if (!screenshot) {
@@ -138,9 +146,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               get inspired by <br/> destinations & fashion
             </p>
 
-            {/*<Webcam ref='webcam' width="300" height="300"/>*/}
+            <p style={rightstyle} ><Webcam ref='webcam' width="300" height="300"/></p>
+            <p style={rightstyle} >
+              Show your emotions while looking at those photos, we will arrange you a surprise Holiday!
+            </p>
             {/*<Button >Start</Button>*/}
-            <RaisedButton href="holiday" label="Start" fullWidth={true} primary={true} style={style} />
+            <Link to="holiday"><RaisedButton label="Start" fullWidth={true} primary={true} style={style} /></Link>
           </CenteredSection>
         </div>
       </article>

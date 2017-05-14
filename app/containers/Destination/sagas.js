@@ -13,10 +13,23 @@ import { pickDestination, setDestination, pickDestinationError } from './actions
 import request from 'utils/request';
 
 export function* getDestinations() {
-  
-  const destination = "turkey"
-  const products_api_endpoint = "http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE"
 
+  var destinationQuery = "Athen"
+  const destinations_api_endpoint = `http://wegde.instigator.io/weg.de/v1/destinations?apikey=7Hack%212017&query=${destinationQuery}`
+  const products_api_endpoint  = "http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE"
+  var regionId = 0;
+
+  // fetch(destinations_api_endpoint)
+  // .then(data => {
+  //   return data.text()
+  // })
+  // .then(jsonData => {
+  //   console.log(jsonData)
+  //   regionId = jsonData.response.regions[0].regionId
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // })
   try {
     // Call our request helper (see 'utils/request')
     const data = yield call(request, products_api_endpoint);
@@ -24,7 +37,6 @@ export function* getDestinations() {
   } catch (err) {
     yield put(pickDestinationError(err));
   }
-
 }
 
 export function*  destinationData() {
