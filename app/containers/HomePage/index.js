@@ -148,7 +148,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
             <p style={rightstyle} ><Webcam ref='webcam' width="300" height="300"/></p>
             <p style={rightstyle} >
-              Show your emotions while looking at those photos, we will surprise you with what you like!
+              Show your emotions while looking at those photos, we will arrange you a surprise Holiday!
             </p>
             {/*<Button >Start</Button>*/}
             <Link to="holiday"><RaisedButton label="Start" fullWidth={true} primary={true} style={style} /></Link>

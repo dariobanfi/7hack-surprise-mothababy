@@ -18,6 +18,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {GridList, GridTile} from 'material-ui/GridList'
 
 import jquery from "jquery";
+import H3 from "../../components/H3/index";
+import Link from "react-router/es/Link";
 
 const Wrapper = styled.div`
   margin: 70px auto;
@@ -123,14 +125,16 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
+          <H1>We also bought those clothes for you for this holiday!</H1>
+          <H3>They will wait you in the hotel</H3>
           <Gallery className="gallery">
             { this.renderGalleryImages(products)}
           </Gallery>
           <Brands>
             { this.renderBrands(products) }
           </Brands>
-          <StyledRaisedButton href="holiday" label="Take More" fullWidth={true} style={{margin: '0.5em auto', marginTop: '2em'}} />          
-          <StyledRaisedButton href="holiday" label="Check Out" fullWidth={true} primary={true} />
+          <StyledRaisedButton href="https://www.stylight.com/Clothing/" label="Take More" fullWidth={true} style={{margin: '0.5em auto', marginTop: '2em'}} />
+          <Link to="summary"><StyledRaisedButton label="Check Out" fullWidth={true} primary={true} /></Link>
         </Wrapper>
       </div>
     )
