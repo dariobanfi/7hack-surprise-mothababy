@@ -13,6 +13,7 @@ injectGlobal`
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    color: #222222;
   }
 
   body.fontLoaded {

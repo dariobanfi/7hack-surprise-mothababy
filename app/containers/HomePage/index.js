@@ -36,6 +36,9 @@ const rightstyle = {
   'fontSize': '1.25em',
   'margin-top': '4em'
 };
+const paddeddiv = {
+  'padding': '15px'
+};
 
 import jquery from "jquery";
 import {Link} from "react-router";
@@ -138,7 +141,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           meta={[
             { name: 'description', content: 'A React.js Boilerplate application homepage' },
           ]} />
-        <div>
+        <div style={paddeddiv}>
           <CenteredSection>
             <H1>
               Discover Yourself
