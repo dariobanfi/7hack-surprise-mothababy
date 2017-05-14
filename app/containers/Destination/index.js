@@ -10,6 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import Button from 'components/Button';
 import { pickDestination } from './actions';
 import { makeSelectCurrentUser } from 'containers/App/selectors';
+import { makeSelectReactions } from './selectors'
 
 export const CITIES = [
   "Amsterdam", "Barcelona", "Budapest", "Edinburgh", "Ibiza",
@@ -111,19 +112,27 @@ function calculateEuclidianDistance(vec1, vec2) {
 
 
 class Destination extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  
-  render() {
-    const {destination} = this.props
+  componentWillMount() {
+    const {destination, reactions} = this.props
     console.log(destination)
-    var bckenP_indicator = matchFeelings([2,0,1,0,2,1,2,2,1,2]);
+
+    // const reactions = [2,0,1,0,2,1,2,2,1,2]
+    console.log("reactions: " + reactions)
+    var bckenP_indicator = matchFeelings(reactions);
     console.log(bckenP_indicator)
     var dest_id = getBestCityMatch(bckenP_indicator)
     console.log(dest_id)
     console.log("YOUR DESTINATION WILL BE: " + CITIES[dest_id.id])
+
+    this.props.onPickDestination(CITY_IDS[dest_id.id])
+  }
+
+  render() {
+    const {destination, reactions} = this.props
     return (
       <div>
         <p>{ destination.get("response") && JSON.stringify(destination.get("response")) }</p>
-        <Button onClick={this.props.onSubmitForm}>yo</Button>
+        <Button onClick={console.log}>yo</Button>
       </div>
     );
   }
@@ -135,12 +144,14 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(pickDestination());
     },
+    onPickDestination: (region) => dispatch(pickDestination(region)),
   };
 }
 
 const mapStateToProps = function(state) {
   return {
-    destination: state.get("destination")
+    destination: state.get("destination"),
+    reactions: state.get("holiday").get("reactions").toJS()
   }
 }
 

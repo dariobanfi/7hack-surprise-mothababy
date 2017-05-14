@@ -35,7 +35,7 @@ const destinations = [
 ];
 
 import {makeSelectEmotion, makeSelectInterests} from './selectors';
-import {changeEmotion, changeInterests} from "./actions";
+import {changeEmotion, changeInterests, changeReaction} from "./actions";
 import {fromJS} from 'immutable';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -151,14 +151,14 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
           }}>
         </CardMedia>
         <Waypoint
-            onEnter={(evt) => this.takeScreenShot(metadataImg)}
+            onEnter={(evt) => this.takeScreenShot(metadataImg, index)}
           />
         </StyledCard>
       );
     });
   }
 
-  takeScreenShot(visibleItem) {
+  takeScreenShot(visibleItem, index) {
     const screenshot = this.refs.webcam.getScreenshot();
     this.setState({screenshot: screenshot});
     if (!screenshot) {
@@ -166,11 +166,11 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
     }
     console.log('We took your photo while looking at', visibleItem);
     const blob = this.makeBlob(screenshot);
-    this.sendBlob(blob, visibleItem);
+    this.sendBlob(blob, visibleItem, index);
 
   }
 
-  sendBlob(blob,visibleItem) {
+  sendBlob(blob,visibleItem, index) {
     const that = this;
   jquery.ajax({
       url: '  https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize',
@@ -187,6 +187,14 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       const emotions = fromJS(data[0].scores);
       console.log('This is your reaction: ', emotions.toJS());
       const emotion = emotions.keyOf(emotions.max());
+
+      const emotionValueMap = {
+        happiness: 2,
+        neutral: 1,
+        surprise: 1,
+      }
+      const emotionValue = emotionValueMap.hasOwnProperty(emotion) ? emotionValueMap[emotion] : 0;
+      that.props.onChangeReaction(index, emotionValue)
       that.props.onChangeEmotion(emotion);
 
       visibleItem.tags.map((tag) => {
@@ -198,7 +206,10 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       });
       console.log('Those are your interests: ', that.props.interests.toJS());
     })
-    .fail(function() {console.log("error");});
+    .fail(function() {
+      console.log("error");
+      that.props.onChangeReaction(index, 2)
+    });
   }
 
   showSuccessScreen() {
@@ -259,9 +270,9 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
         <H2>
           Now choose your price range
         </H2>
-        <Button href='confirmation'>max 100 €</Button>
-        <Button href='confirmation'>max 200 €</Button>
-        <Button href='confirmation'>max 300 €</Button>
+        <Button href='destination'>max 100 €</Button>
+        <Button href='destination'>max 200 €</Button>
+        <Button href='destination'>max 300 €</Button>
       </CenteredSection>
     </div>
     );
@@ -280,6 +291,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     onChangeEmotion: (emotion) => dispatch(changeEmotion(emotion)),
     onChangeInterests: (interestObj) => dispatch(changeInterests(interestObj)),
+    onChangeReaction: (index, reaction) => dispatch(changeReaction(index, reaction)),
   };
 }
 
