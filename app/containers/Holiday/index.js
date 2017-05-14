@@ -16,7 +16,6 @@ import {makeSelectEmotion, makeSelectInterests} from './selectors';
 import {changeEmotion, changeInterests} from "./actions";
 import {fromJS} from 'immutable';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {GridList, GridTile} from 'material-ui/GridList';
 
 import H1 from "../../components/H1/index";
 import CenteredSection from "../HomePage/CenteredSection";

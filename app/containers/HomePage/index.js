@@ -21,6 +21,8 @@ import { makeSelectUsername } from './selectors';
 import Button from "../../components/Button/index";
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
+import background from 'strand sonnenaufgang.jpg';
+
 
 const ProductName = styled.p`
   font-size: 1.2em;
@@ -30,7 +32,7 @@ const ProductName = styled.p`
 `
 
 const style = {
-  margin: 12,
+  margin: "auto",
   marginTop: '10em'
 };
 const rightstyle = {
@@ -118,14 +120,15 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       repos,
     };
 
+    document.body.style.backgroundImage = `url(${background})`
+    document.querySelector("#app").style.backgroundColor = 'transparent'
     return (
       <article>
         <Helmet
           title="Home Page"
           meta={[
             { name: 'description', content: 'A React.js Boilerplate application homepage' },
-          ]}
-        />
+          ]} />
         <div>
           <CenteredSection>
             <H1>
