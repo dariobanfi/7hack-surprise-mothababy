@@ -134,6 +134,9 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       data: blob
     })
     .done((data) => {
+      if(data.length < 1)
+        return
+        
       const emotions = fromJS(data[0].scores);
       console.log('This is your reaction: ', emotions.toJS());
       const emotion = emotions.keyOf(emotions.max());
@@ -160,19 +163,19 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
   renderImageEmotions() {
 
     const images = [
-      { img: image1, tags: ['nature', 'exotic' ]},
-      // { img: image2, tags: ['nature']},
+      // { img: image1, tags: ['nature', 'exotic' ]},
+      { img: image2, tags: ['nature']},
       { img: image3, tags: ['beach']},
       { img: image4, tags: ['party', 'city']},
-      // { img: image5, tags: ['exotic']},
-      { img: image6, tags: ['beach']},
+      { img: image5, tags: ['exotic']},
+      // { img: image6, tags: ['beach']},
       { img: image7, tags: ['culture']},
       // { img: image8, tags: ['culture']},
-      { img: image9, tags: ['beach']},
+      // { img: image9, tags: ['beach']},
       { img: image10, tags: ['city']},
-      // { img: image11, tags: ['party']},
+      { img: image11, tags: ['party']},
       { img: image12, tags: ['exotic']},
-      // { img: image13, tags: ['city']},
+      { img: image13, tags: ['city']},
       { img: image14, tags: ['city']},
     ];
 

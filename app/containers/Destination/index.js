@@ -60,15 +60,18 @@ export const PICTURES = [
 function matchFeelings(feelings) {
   var result = [0, 0, 0, 0, 0, 0]
   for (var i = 0; i < PICTURES.length; i++) {
-    for (var j = 0; j < feelings.length; j++) {
-      result[j] = result[j] + feelings[j] * PICTURES[i][j]
+    for (var j = 0; j < result.length; j++) {
+      result[j] = result[j] + feelings[i] * PICTURES[i][j]
     }
   }
+
+  console.log(result)
 
   var sum = result.reduce(function(acc, val) {
     return acc + val
   }, 0)
 
+  console.log(sum)
   var normalized = result.map(elem => elem / sum * 100)
 
   return normalized
@@ -94,7 +97,7 @@ function getBestCityMatch(normalizedFeelingsMatch) {
 
 function calculateVectorDistance(vec1, vec2) {
   var result = []
-  for(i = 0; i < vec1.length; i++) {
+  for(var i = 0; i < vec1.length; i++) {
     result[i] = Math.abs(vec1[i] - vec2[i])
   }
   return result.reduce((acc, val) => acc + val, 0)
@@ -106,6 +109,11 @@ class Destination extends React.PureComponent { // eslint-disable-line react/pre
   render() {
     const {destination} = this.props
     console.log(destination)
+    var beckenP_indicator = matchFeelings([2,0,1,0,2,1,2,2,1,2]);
+    console.log(beckenP_indicator)
+    var dest_id = getBestCityMatch(beckenP_indicator)
+
+    console.log("YOUR DESTINATION WILL BE: " + CITIES[dest_id.id])
     return (
       <div>
         <p>{ destination.get("response") && JSON.stringify(destination.get("response")) }</p>
@@ -124,10 +132,6 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-
-_ => {
-
-}
 const mapStateToProps = function(state) {
   return {
     destination: state.get("destination")

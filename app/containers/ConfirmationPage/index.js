@@ -12,6 +12,8 @@ import styled, { keyframes } from 'styled-components'
 import CenteredSection from "../HomePage/CenteredSection"
 import H1 from "../../components/H1/index"
 import H2 from "../../components/H2/index"
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 import {GridList, GridTile} from 'material-ui/GridList'
 
@@ -28,6 +30,10 @@ const Gallery = styled.div`
   width: 300px;
   height: 300px;
   margin: 50px auto;
+`
+
+const StyledRaisedButton = styled (RaisedButton) `
+ 
 `
 
 const galleryFade = (index) =>  keyframes`
@@ -123,6 +129,8 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           <Brands>
             { this.renderBrands(products) }
           </Brands>
+          <StyledRaisedButton href="holiday" label="Take More" fullWidth={true} style={{margin: '0.5em auto', marginTop: '2em'}} />          
+          <StyledRaisedButton href="holiday" label="Check Out" fullWidth={true} primary={true} />
         </Wrapper>
       </div>
     )
