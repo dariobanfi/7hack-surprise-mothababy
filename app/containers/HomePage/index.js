@@ -9,9 +9,6 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
 import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H1 from 'components/H1';
 import H2 from 'components/H2';

@@ -4,7 +4,7 @@
 
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { 
+import {
   PICK_DESTINATION,
   PICK_DESTINATION_SUCCESS,
   PICK_DESTINATION_ERROR, } from './constants';
@@ -16,7 +16,7 @@ export function* getDestinations() {
 
   var destinationQuery = "Athen"
   const destinations_api_endpoint = `http://wegde.instigator.io/weg.de/v1/destinations?apikey=7Hack%212017&query=${destinationQuery}`
-  const products_api_endpoint  = "http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE"
+  const products_api_endpoint  = `http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${region}`
   var regionId = 0;
 
   // fetch(destinations_api_endpoint)
@@ -40,7 +40,7 @@ export function* getDestinations() {
 }
 
 export function*  destinationData() {
-  
+
   const watcher = yield takeLatest(PICK_DESTINATION, getDestinations);
 
   // Suspend execution until location changes
