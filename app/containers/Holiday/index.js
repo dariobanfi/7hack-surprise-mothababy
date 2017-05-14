@@ -184,7 +184,6 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       console.log('Those are your interests: ', that.props.interests.toJS());
     })
     .fail(function() {
-      console.log("error");
       that.props.onChangeReaction(index, 2)
     });
   }
@@ -207,7 +206,7 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
       { img: image7, tags: ['culture']},
       // { img: image8, tags: ['culture']},
       // { img: image9, tags: ['beach']},
-      { img: image10, tags: ['city']},
+      // { img: image10, tags: ['city']},
       { img: image11, tags: ['party']},
       { img: image12, tags: ['exotic']},
       // { img: image13, tags: ['city']},
@@ -271,14 +270,6 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
     const category = this.props.interests.keyOf(this.props.interests.max());
     const city = this.mapCategoryToCity(category);
-    console.log('The category the user would like to see is: ', category);
-    console.log('Booking from weg.de for: ', city);
-    jquery.get(`http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${destinations.find(something => something.get('city') === city).get('id')}`).
-      done((data) => {
-      console.log('We booked from you at:', data.response.bestRatedHotel.comvelHotel.hotelName);
-      console.log('Your room will be:', data.response.bestRatedHotel.roomType.name);
-      })
-        .fail(function() {console.log("error");});
 
     this.props.onChangeEmotion(null);
     return (
