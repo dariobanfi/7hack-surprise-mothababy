@@ -21,11 +21,11 @@ export function* getProducts() {
   // Select username from store
   const occasion = yield select(makeSelectOccasion())
   //const requestURL = `http://instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&gender=men&occasion=4008`
-  const makeUrl = (categoryId) => `http://stylight.instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=man&category=${categoryId}`
+  const makeUrl = (categoryId) => `http://stylight.instigator.io/products?apiKey=H6490912AB3211E680F576304DEC7EB7&page_items=50&sort_by=relevance&occasion=${occasion}&gender=male&category=${categoryId}`
 
   try {
     const apparel = [
-      { type: 'tops', categoryId: 10472},
+      { type: 'hemden', categoryId: 10268},
       { type: 'pants', categoryId: 10299},
       { type: 'shoes', categoryId: 10580},
     ]
