@@ -12,3 +12,11 @@ export function changeInterests(interestObj) {
     interestObj,
   };
 }
+
+export function changeReaction(index, reaction) {
+  return {
+    type: 'CHANGE_REACTION',
+    index,
+    reaction
+  }
+}
