@@ -25,7 +25,6 @@ function holidayReducer(state = initialState, action) {
       return state
         .set('interests', state.get('interests').set(action.interestObj.interestName, previousInterestValue + action.interestObj.interestVal));
     case 'CHANGE_REACTION':
-      console.log(state.get('reactions'))
       return state
         .set('reactions', state.get('reactions').set(action.index, action.reaction))
     default:
