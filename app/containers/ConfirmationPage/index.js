@@ -3,21 +3,19 @@
  *
  * List all the features
  */
-import React from 'react';
-import Helmet from 'react-helmet';
+import React from 'react'
+import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { requestProducts, requestWeather } from './actions'
 
-import styled from 'styled-components'
-import CenteredSection from "../HomePage/CenteredSection";
-import H1 from "../../components/H1/index";
-import H2 from "../../components/H2/index";
+import styled, { keyframes } from 'styled-components'
+import CenteredSection from "../HomePage/CenteredSection"
+import H1 from "../../components/H1/index"
+import H2 from "../../components/H2/index"
 
-const Teaser = styled.div`
-  font-size: 1.2em;
-  margin-bottom: 30px;
-  margin-top: 30px;
-`
+import {GridList, GridTile} from 'material-ui/GridList'
+
+import jquery from "jquery";
 
 const Wrapper = styled.div`
   margin: 70px auto;
@@ -25,20 +23,39 @@ const Wrapper = styled.div`
   max-width: 1000px;
 `
 
-const Products = styled.div`
-  margin: 10px auto;
+const Gallery = styled.div`
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 50px auto;
+`
+
+const galleryFade = (index) =>  keyframes`
+  0% { opacity: 0; }
+  ${index * 8.33333333}% { opacity: 0; }
+  ${index * 8.33333333 + 8.33333333}% { opacity: 1; }
+  ${index * 8.33333333 + 2 * 8.33333333}% { opacity: 0; }
+  100% { opacity: 0 }
+`
+
+const makeGalleryImage = (index) => styled.img`
+  position: absolute;
+  max-width: 100%;
+  opacity: 0;
+
+  animation: ${galleryFade(index)} 40s linear infinite;
+`
+
+const Brands = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 `
 
-const Product = styled.div`
-  margin-left: 15px;
-  margin-right: 15px;
-`
-
-const ProductImage = styled.img`
+const Brand = styled.img`
   display: block;
-  width: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
+  max-height: 35px;
 `
 
 class ConfirmationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -68,19 +85,22 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     return interestToOccasionMap[interest];
   };
 
-  renderProducts(products) {
-    if (!products) {
-      return;
-    }
-    return products.slice(0, 3).map((value) => {
-      const id = value.id
-      const name = value.name
+  renderGalleryImages(products) {
+    return products.map((value, index) => {
+      const { id, name } = value
       const imageUrl = value.images[0].url
+      const GalleryImage = makeGalleryImage(index)
       return (
-        <Product key={id}>
-          <ProductImage src={imageUrl} alt={name}/>
-        </Product>
+        <GalleryImage key={id} src={imageUrl} alt={name} />
       )
+    })
+  }
+
+  renderBrands(products) {
+    const brands = _.filter(_.uniqBy(products.map((value) => value.brand), (e) => e.id), (e) => _.isString(e.logo)).slice(0,3)
+    return brands.map((value) => {
+      const { id, name, logo } = value
+      return <Brand key={id} alt={name} src={logo} />
     })
   }
 
@@ -91,8 +111,12 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
   }
 
   render() {
-    console.log(this.props)
     const { tops, pants, shoes, weather } = this.props
+    const products = [
+      ...tops.slice(0,4),
+      ...pants.slice(0,4),
+      ...shoes.slice(0,4)
+    ]
     return (
       <div>
         <Helmet
@@ -102,22 +126,12 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
-          <CenteredSection>
-            <H1>We choose a destination for you! 👻</H1>
-            <Teaser>
-              { weather && this.renderWeather(weather) }
-              &nbsp;We also bought these clothes for you, can you guess where you will go?
-            </Teaser>
-            <Products>
-              { this.renderProducts(tops) }
-            </Products>
-            <Products>
-              { this.renderProducts(pants) }
-            </Products>
-            <Products>
-              { this.renderProducts(shoes) }
-            </Products>
-          </CenteredSection>
+          <Gallery className="gallery">
+            { this.renderGalleryImages(products)}
+          </Gallery>
+          <Brands>
+            { this.renderBrands(products) }
+          </Brands>
         </Wrapper>
       </div>
     )
