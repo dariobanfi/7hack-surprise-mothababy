@@ -24,3 +24,31 @@ export function requestWeatherError(error) {
     error
   }
 }
+
+
+export const REQUEST_LOAN = 'REQUEST_LOAN'
+
+export function requestLoan(amount) {
+  return {
+    type: REQUEST_LOAN,
+    amount
+  }
+}
+
+export const REQUEST_LOAN_SUCCESS = 'REQUEST_LOAN_SUCCESS'
+
+export function requestLoanSuccess(conditions) {
+  return {
+    type: REQUEST_LOAN_SUCCESS,
+    conditions
+  }
+}
+
+export const REQUEST_LOAN_ERROR = 'REQUEST_LOAN_ERROR'
+
+export function requestLoanError(error) {
+  return {
+    type: REQUEST_LOAN_ERROR,
+    error
+  }
+}

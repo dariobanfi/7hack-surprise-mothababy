@@ -7,6 +7,12 @@ const makeSelectCoordinates = () => createSelector(
   (summaryState) => summaryState.get('coordinates')
 )
 
+const makeSelectAmount = () => createSelector(
+  selectSummary,
+  (summaryState) => summaryState.get('amount')
+)
+
 export {
-  makeSelectCoordinates
+  makeSelectCoordinates,
+  makeSelectAmount,
 }
