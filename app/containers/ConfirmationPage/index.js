@@ -6,7 +6,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { requestProducts, requestWeather } from './actions'
+import { requestProducts } from './actions'
 
 import styled, { keyframes } from 'styled-components'
 import CenteredSection from "../HomePage/CenteredSection"
@@ -69,9 +69,6 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     const occasion = this.mapInterestToOccasion(interest)
     console.log('Requesting clothes for ', occasion)
     this.props.dispatch(requestProducts(occasion))
-
-    const coordinates = { latitude: 48.137154, longitude: 11.576124}
-    this.props.dispatch(requestWeather(coordinates))
   }
 
   mapInterestToOccasion(interest) {
@@ -104,14 +101,8 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
     })
   }
 
-  renderWeather(weather) {
-    const { minTemp, maxTemp, weatherCondition } = weather
-    return `Sneak Peek: During your stay temperatures will vary between ${minTemp} \
-    and ${maxTemp} °C and you will have ${weatherCondition}.`
-  }
-
   render() {
-    const { tops, pants, shoes, weather } = this.props
+    const { tops, pants, shoes } = this.props
     const products = [
       ...tops.slice(0,4),
       ...pants.slice(0,4),
@@ -144,7 +135,6 @@ function mapStateToProps(state) {
     tops: confirmationState.get("tops"),
     pants: confirmationState.get("pants"),
     shoes: confirmationState.get("shoes"),
-    weather: confirmationState.get("weather"),
     interests: state.get("holiday").get("interests"),
   }
 }
