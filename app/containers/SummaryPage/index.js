@@ -37,10 +37,10 @@ const WeatherIcon = styled.img`
 class SummaryPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    const coordinates = { latitude: 48.137154, longitude: 11.576124 }
+    const coordinates = { latitude: 55.673898, longitude: 12.588299 }
     this.props.dispatch(requestWeather(coordinates))
 
-    const amount = 600
+    const amount = 500
     this.props.dispatch(requestLoan(amount))
   }
 
