@@ -21,7 +21,7 @@ import H3 from "../../components/H3/index";
 import Link from "react-router/es/Link";
 
 const Wrapper = styled.div`
-  margin: 70px auto;
+  margin: 30px auto;
   padding: 0 20px 0 20px;
   max-width: 1000px;
 `
@@ -34,7 +34,7 @@ const Gallery = styled.div`
 `
 
 const StyledRaisedButton = styled (RaisedButton) `
- 
+
 `
 
 const galleryFade = (index) =>  keyframes`

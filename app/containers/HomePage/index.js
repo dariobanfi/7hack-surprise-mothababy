@@ -20,7 +20,6 @@ import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
 import background from 'strand sonnenaufgang.jpg';
 
-
 const ProductName = styled.p`
   font-size: 1.2em;
   padding: 10px;
@@ -34,8 +33,11 @@ const style = {
 };
 const rightstyle = {
   'textAlign': 'right',
-  'fontSize': '1.25em'
-
+  'fontSize': '1.25em',
+  'margin-top': '4em'
+};
+const paddeddiv = {
+  'padding': '15px'
 };
 
 import jquery from "jquery";
@@ -139,19 +141,15 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           meta={[
             { name: 'description', content: 'A React.js Boilerplate application homepage' },
           ]} />
-        <div>
+        <div style={paddeddiv}>
           <CenteredSection>
             <H1>
               Discover Yourself
             </H1>
             <p style={rightstyle} >
-              get inspired by <br/> destinations & fashion
+              get inspired by <br/> destinations &<br/> fashion
             </p>
 
-            <p style={rightstyle} ><Webcam ref='webcam' width="300" height="300"/></p>
-            <p style={rightstyle} >
-              Show your emotions while looking at those photos, we will arrange you a surprise Holiday!
-            </p>
             {/*<Button >Start</Button>*/}
             <Link to="holiday"><RaisedButton label="Start" fullWidth={true} primary={true} style={style} /></Link>
           </CenteredSection>

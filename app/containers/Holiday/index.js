@@ -215,9 +215,12 @@ export class Holiday extends React.PureComponent { // eslint-disable-line react/
 
     return (
       <CenteredSection>
-        <p style={{height: 44}} />
         <H2>Swipe down slowly</H2>
-        <img src="http://keymarketing.com/wordpress/wp-content/themes/keymarketing/dist/img/arrowdown.svg" style={{height: '190px', paddingBottom: '10px'}}/>
+        <p>
+          Show your emotions while looking at those photos and we will arrange a surprise Holiday for you!
+        </p>
+        <p style={{height: 8}} />
+        <img src="http://keymarketing.com/wordpress/wp-content/themes/keymarketing/dist/img/arrowdown.svg" style={{height: '160px', paddingBottom: '10px'}}/>
         {/*Hiding it because noone wants to see your ugly face*/}
         <div style={{ position: 'absolute', top: '-1000px'}}>
           <Webcam screenshotFormat='image/jpeg' ref='webcam' width="500" height="500"/>
