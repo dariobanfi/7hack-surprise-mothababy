@@ -109,9 +109,9 @@ class Destination extends React.PureComponent { // eslint-disable-line react/pre
   render() {
     const {destination} = this.props
     console.log(destination)
-    var beckenP_indicator = matchFeelings([2,0,1,0,2,1,2,2,1,2]);
-    console.log(beckenP_indicator)
-    var dest_id = getBestCityMatch(beckenP_indicator)
+    var bckenP_indicator = matchFeelings([2,0,1,0,2,1,2,2,1,2]);
+    console.log(bckenP_indicator)
+    var dest_id = getBestCityMatch(bckenP_indicator)
 
     console.log("YOUR DESTINATION WILL BE: " + CITIES[dest_id.id])
     return (
