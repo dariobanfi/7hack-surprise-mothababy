@@ -125,8 +125,9 @@ class ConfirmationPage extends React.Component { // eslint-disable-line react/pr
           ]}
         />
         <Wrapper>
-          <H1>We also bought those clothes for you for this holiday!</H1>
-          <H3>They will wait you in the hotel</H3>
+          <H1>We also bought those clothes for you to match you holiday!</H1>
+          <H3>They will be waiting you in your hotel room</H3>
+          <p>Can you guess where are you going?</p>
           <Gallery className="gallery">
             { this.renderGalleryImages(products)}
           </Gallery>
