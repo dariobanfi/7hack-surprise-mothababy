@@ -118,7 +118,7 @@ class Destination extends React.PureComponent { // eslint-disable-line react/pre
     this.state = {hotel: null, hotelType: null};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {destination, reactions} = this.props
 
     // const reactions = [2,0,1,0,2,1,2,2,1,2]
@@ -127,8 +127,9 @@ class Destination extends React.PureComponent { // eslint-disable-line react/pre
     var dest_id = getBestCityMatch(bckenP_indicator)
     console.log(dest_id)
     const city = CITIES[dest_id.id];
-    console.log("Your destination will be: " + city);
-    jquery.get(`http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${dest_id.id}`).
+    const cityId = CITY_IDS[dest_id.id];
+    console.log("Your destination will be: " + city + " " + dest_id );
+    jquery.get(`http://wegde.instigator.io/weg.de/v1/products?apikey=7Hack%212017&channel=PACKAGE&region=${cityId}`).
     done((data) => {
       console.log('We booked from you at:', data.response.bestRatedHotel.comvelHotel.hotelName);
       this.setState({hotel: data.response.bestRatedHotel.comvelHotel.hotelName})
